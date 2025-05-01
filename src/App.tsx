@@ -1,5 +1,4 @@
-import "./App.css";
-import { Button as MUIButton } from "@mui/material";
+import { Box, Button as MUIButton, Container } from "@mui/material";
 import CardsList from "./components/CardsList.tsx";
 import { useFetchData } from "./hooks/useFetchData.ts";
 
@@ -13,12 +12,14 @@ function App() {
   const { fetchedData, fetchData } = useFetchData();
 
   return (
-    <>
-      <MUIButton variant="contained" onClick={fetchData}>
-        Get series
-      </MUIButton>
+    <Container sx={{ py: 8 }}>
+      <Box sx={{ textAlign: "center" }}>
+        <MUIButton variant="contained" onClick={fetchData} size="large">
+          Get series
+        </MUIButton>
+      </Box>
       <CardsList fetchedData={fetchedData} />
-    </>
+    </Container>
   );
 }
 

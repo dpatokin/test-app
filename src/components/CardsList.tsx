@@ -12,10 +12,12 @@ export default function CardsList({
     fetchedData.length > 0 &&
     fetchedData.map((item: Item) => <Card key={item.id} {...item} />);
 
+  console.log(fetchedData);
+
   return (
     <>
       {fetchedData.length > 0 && (
-        <Grid container spacing={3} mt={8}>
+        <Grid container spacing={2} mt={8}>
           {itemsList}
         </Grid>
       )}
