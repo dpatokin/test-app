@@ -1,24 +1,19 @@
-import { Box, Button as MUIButton, Container } from "@mui/material";
-import CardsList from "./components/CardsList.tsx";
-import { useFetchData } from "./hooks/useFetchData.ts";
-
-/*
- * Add autoloading
- * Add Local storage or DB?
- * Last step - react native
- * */
+import { Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
+import Favorite from "./pages/Favorite";
+import { Container } from "@mui/material";
 
 function App() {
-  const { fetchedData, fetchData } = useFetchData();
-
   return (
     <Container sx={{ py: 8 }}>
-      <Box sx={{ textAlign: "center" }}>
-        <MUIButton variant="contained" onClick={fetchData} size="large">
-          Get series
-        </MUIButton>
-      </Box>
-      <CardsList fetchedData={fetchedData} />
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/favorite">Favorite</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/favorite" element={<Favorite />} />
+      </Routes>
     </Container>
   );
 }
