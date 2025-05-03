@@ -4,18 +4,22 @@ import { ReactElement } from "react";
 import {
   Box,
   Card as MUICard,
-  CardActionArea,
+  CardActions,
   CardContent,
   CardHeader,
   CardMedia,
   Typography,
+  Button,
+  IconButton,
 } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 export default function Card({
   id,
   title,
   poster_path: poster,
   release_date,
+  overview,
 }: Item): ReactElement {
   const mediaBaseURL = "https://image.tmdb.org/t/p/w342/";
   const releaseDate: number = new Date(release_date)?.getFullYear();
@@ -23,36 +27,57 @@ export default function Card({
 
   return (
     <Grid size={6} className="seriesCard">
-      <MUICard className="seriesCard">
-        <CardActionArea
-          href={movieURL}
-          target="_blank"
-          sx={{ display: "flex", alignItems: "flex-start" }}
+      <MUICard
+        className="seriesCard"
+        sx={{ display: "flex", alignItems: "flex-start", height: "100%" }}
+      >
+        {poster && (
+          <CardMedia
+            component="img"
+            width="180px"
+            image={mediaBaseURL + poster}
+            alt={title}
+            sx={{ width: "180px" }}
+          />
+        )}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+          }}
         >
-          {poster && (
-            <CardMedia
-              component="img"
-              width="200px"
-              image={mediaBaseURL + poster}
-              alt={title}
-            />
-          )}
-          <Box
+          <CardHeader title={title} subheader={releaseDate} />
+          <CardContent>
+            <Typography
+              variant="body2"
+              sx={{
+                color: "text.secondary",
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                WebkitLineClamp: 3,
+              }}
+            >
+              {overview}
+            </Typography>
+          </CardContent>
+          <CardActions
             sx={{
               display: "flex",
-              flexDirection: "column",
+              flex: 1,
+              justifyContent: "space-between",
+              alignItems: "flex-end",
             }}
           >
-            <CardHeader title={title} subheader={releaseDate} />
-            <CardContent>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                This impressive paella is a perfect party dish and a fun meal to
-                cook together with your guests. Add 1 cup of frozen peas along
-                with the mussels, if you like.
-              </Typography>
-            </CardContent>
-          </Box>
-        </CardActionArea>
+            <Button size="small" href={movieURL} target="_blank">
+              Learn More
+            </Button>
+            <IconButton aria-label="add to favorites">
+              <FavoriteIcon />
+            </IconButton>
+          </CardActions>
+        </Box>
       </MUICard>
     </Grid>
   );
