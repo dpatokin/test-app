@@ -10,9 +10,8 @@ import {
   CardMedia,
   Typography,
   Button,
-  IconButton,
 } from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import { CardButtonFavorite } from "./CardButtonFavorite.tsx";
 
 export default function Card({
   id,
@@ -73,9 +72,7 @@ export default function Card({
             <Button size="small" href={movieURL} target="_blank">
               Learn More
             </Button>
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
-            </IconButton>
+            <CardButtonFavorite id={id} />
           </CardActions>
         </Box>
       </MUICard>
