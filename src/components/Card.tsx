@@ -39,10 +39,10 @@ export default function Card({
         {poster && (
           <CardMedia
             component="img"
-            width="180px"
+            width="240px"
             image={mediaBaseURL + poster}
             alt={title}
-            sx={{ width: "180px" }}
+            sx={{ width: "240px" }}
           />
         )}
         <Box

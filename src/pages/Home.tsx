@@ -6,7 +6,7 @@ export default function Home() {
   const { fetchedData, fetchData } = useFetchData();
 
   return (
-    <Container>
+    <Container maxWidth="xl" sx={{ pt: 17, pb: 8 }}>
       <Box sx={{ textAlign: "center" }}>
         <MUIButton variant="contained" onClick={fetchData} size="large">
           Get series
