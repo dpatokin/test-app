@@ -19,7 +19,13 @@ export default function Card({
   poster_path: poster,
   release_date,
   overview,
-}: Item): ReactElement {
+  favoriteMedia,
+  onToggleFavorite,
+}: Item & {
+  favoriteMedia: number[];
+  onToggleFavorite: (id: number) => void;
+}): ReactElement {
+  const isFavorite = favoriteMedia.includes(id);
   const mediaBaseURL = "https://image.tmdb.org/t/p/w342/";
   const releaseDate: number = new Date(release_date)?.getFullYear();
   const movieURL = "https://www.themoviedb.org/movie/" + id;
@@ -72,7 +78,11 @@ export default function Card({
             <Button size="small" href={movieURL} target="_blank">
               Learn More
             </Button>
-            <CardButtonFavorite id={id} />
+            <CardButtonFavorite
+              id={id}
+              isFavorite={isFavorite}
+              onToggleFavorite={onToggleFavorite}
+            />
           </CardActions>
         </Box>
       </MUICard>

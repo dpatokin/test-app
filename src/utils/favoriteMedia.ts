@@ -1,4 +1,10 @@
-export function toggleFavoriteMedia(id: number): boolean {
+export function getFavoriteMediaArray(): number[] {
+  const favoriteMediaJSON = localStorage.getItem("favoriteMedia");
+
+  return favoriteMediaJSON ? JSON.parse(favoriteMediaJSON) : [];
+}
+
+export function updateFavoriteMediaData(id: number): boolean {
   const favoriteMedia = getFavoriteMediaArray();
 
   if (favoriteMedia.includes(id)) {
@@ -10,16 +16,6 @@ export function toggleFavoriteMedia(id: number): boolean {
   addFavoriteMedia(id, favoriteMedia);
 
   return true;
-}
-
-export function getFavoriteMediaArray(): number[] {
-  const favoriteMediaJSON = localStorage.getItem("favoriteMedia");
-
-  if (!favoriteMediaJSON) {
-    return [];
-  }
-
-  return JSON.parse(favoriteMediaJSON);
 }
 
 function addFavoriteMedia(id: number, idList: number[] = []) {
