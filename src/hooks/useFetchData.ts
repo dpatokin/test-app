@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Item } from "../types";
+import { MediaItem } from "../types";
 
 export function useFetchData() {
-  const [fetchedData, setFetchedData] = useState<Item[]>([]);
+  const [fetchedData, setFetchedData] = useState<MediaItem[]>([]);
 
   const fetchData = async (): Promise<void> => {
     try {

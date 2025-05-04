@@ -1,21 +1,22 @@
 import { IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { MediaItem } from "../types";
 
 export function CardButtonFavorite({
-  id,
+  mediaItem,
   isFavorite,
   onToggleFavorite,
 }: {
-  id: number;
+  mediaItem: MediaItem;
   isFavorite: boolean;
-  onToggleFavorite: (id: number) => void;
+  onToggleFavorite: (mediaItem: MediaItem) => void;
 }) {
   return (
     <IconButton
       aria-label="add to favorites"
       color={isFavorite ? "error" : "default"}
       onClick={() => {
-        onToggleFavorite(id);
+        onToggleFavorite(mediaItem);
       }}
     >
       <FavoriteIcon />

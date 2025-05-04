@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid";
-import { Item } from "../types";
+import { MediaItem } from "../types";
 import { ReactElement } from "react";
 import {
   Box,
@@ -14,18 +14,18 @@ import {
 import { CardButtonFavorite } from "./CardButtonFavorite.tsx";
 
 export default function Card({
-  id,
-  title,
-  poster_path: poster,
-  release_date,
-  overview,
+  mediaItem,
   favoriteMedia,
   onToggleFavorite,
-}: Item & {
-  favoriteMedia: number[];
-  onToggleFavorite: (id: number) => void;
+}: {
+  mediaItem: MediaItem;
+  favoriteMedia: MediaItem[];
+  onToggleFavorite: (mediaItem: MediaItem) => void;
 }): ReactElement {
-  const isFavorite = favoriteMedia.includes(id);
+  const { id, release_date, poster_path: poster, title, overview } = mediaItem;
+  const isFavorite = favoriteMedia.some(
+    (favoriteItem) => favoriteItem.id === mediaItem.id,
+  );
   const mediaBaseURL = "https://image.tmdb.org/t/p/w342/";
   const releaseDate: number = new Date(release_date)?.getFullYear();
   const movieURL = "https://www.themoviedb.org/movie/" + id;
@@ -55,7 +55,6 @@ export default function Card({
           <CardHeader title={title} subheader={releaseDate} />
           <CardContent>
             <Typography
-              variant="body2"
               sx={{
                 color: "text.secondary",
                 display: "-webkit-box",
@@ -79,7 +78,7 @@ export default function Card({
               Learn More
             </Button>
             <CardButtonFavorite
-              id={id}
+              mediaItem={mediaItem}
               isFavorite={isFavorite}
               onToggleFavorite={onToggleFavorite}
             />

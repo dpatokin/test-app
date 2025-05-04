@@ -3,36 +3,38 @@ import {
   getFavoriteMediaArray,
   updateFavoriteMediaData,
 } from "../utils/favoriteMedia";
-import { Item } from "../types";
+import { MediaItem } from "../types";
 import { Grid } from "@mui/material";
 import Card from "./Card.tsx";
 
 export default function CardsList({
   fetchedData,
 }: {
-  fetchedData: Item[];
+  fetchedData: MediaItem[];
 }): ReactElement {
-  const [favoriteMedia, setFavoriteMedia] = useState<number[]>([]);
+  const [favoriteMedia, setFavoriteMedia] = useState<MediaItem[]>([]);
 
   useEffect(() => {
     setFavoriteMedia(getFavoriteMediaArray());
   }, []);
 
-  const handleToggleFavorite = (id: number) => {
+  const handleToggleFavorite = (mediaItem: MediaItem) => {
     setFavoriteMedia((prev) =>
-      prev.includes(id)
-        ? prev.filter((filterID) => filterID !== id)
-        : [...prev, id],
+      prev.some((favoriteItem) => favoriteItem.id === mediaItem.id)
+        ? prev.filter((filterItem) => filterItem.id !== mediaItem.id)
+        : [...prev, mediaItem],
     );
-    updateFavoriteMediaData(id);
+    updateFavoriteMediaData(mediaItem);
+
+    console.log(getFavoriteMediaArray());
   };
 
   return (
     <Grid container spacing={2} mt={8}>
-      {fetchedData.map((item: Item) => (
+      {fetchedData.map((mediaItem: MediaItem) => (
         <Card
-          key={item.id}
-          {...item}
+          key={mediaItem.id}
+          mediaItem={mediaItem}
           favoriteMedia={favoriteMedia}
           onToggleFavorite={handleToggleFavorite}
         />

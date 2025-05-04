@@ -9,7 +9,7 @@ export default function Home() {
     <Container maxWidth="xl" sx={{ pt: 17, pb: 8 }}>
       <Box sx={{ textAlign: "center" }}>
         <MUIButton variant="contained" onClick={fetchData} size="large">
-          Get series
+          Get movies
         </MUIButton>
       </Box>
       <CardsList fetchedData={fetchedData} />

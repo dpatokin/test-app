@@ -1,30 +1,34 @@
-export function getFavoriteMediaArray(): number[] {
+import { MediaItem } from "../types";
+
+export function getFavoriteMediaArray(): MediaItem[] {
   const favoriteMediaJSON = localStorage.getItem("favoriteMedia");
 
   return favoriteMediaJSON ? JSON.parse(favoriteMediaJSON) : [];
 }
 
-export function updateFavoriteMediaData(id: number): boolean {
+export function updateFavoriteMediaData(mediaItem: MediaItem): boolean {
   const favoriteMedia = getFavoriteMediaArray();
 
-  if (favoriteMedia.includes(id)) {
-    removeFavoriteMedia(id, favoriteMedia);
+  if (favoriteMedia.some((favoriteItem) => favoriteItem.id === mediaItem.id)) {
+    removeFavoriteMedia(mediaItem, favoriteMedia);
 
     return false;
   }
 
-  addFavoriteMedia(id, favoriteMedia);
+  addFavoriteMedia(mediaItem, favoriteMedia);
 
   return true;
 }
 
-function addFavoriteMedia(id: number, idList: number[] = []) {
-  localStorage.setItem("favoriteMedia", JSON.stringify([...idList, id]));
+function addFavoriteMedia(mediaItem: MediaItem, idList: MediaItem[] = []) {
+  localStorage.setItem("favoriteMedia", JSON.stringify([...idList, mediaItem]));
 }
 
-function removeFavoriteMedia(id: number, idList: number[]) {
+function removeFavoriteMedia(mediaItem: MediaItem, idList: MediaItem[]) {
   localStorage.setItem(
     "favoriteMedia",
-    JSON.stringify(idList.filter((mediaId) => mediaId !== id)),
+    JSON.stringify(
+      idList.filter((filterItem: MediaItem) => filterItem.id !== mediaItem.id),
+    ),
   );
 }
