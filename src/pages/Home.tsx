@@ -12,7 +12,7 @@ export default function Home() {
           Get movies
         </MUIButton>
       </Box>
-      <CardsList fetchedData={fetchedData} />
+      <CardsList mediaList={fetchedData} />
     </Container>
   );
 }

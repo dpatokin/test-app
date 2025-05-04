@@ -8,9 +8,9 @@ import { Grid } from "@mui/material";
 import Card from "./Card.tsx";
 
 export default function CardsList({
-  fetchedData,
+  mediaList,
 }: {
-  fetchedData: MediaItem[];
+  mediaList: MediaItem[];
 }): ReactElement {
   const [favoriteMedia, setFavoriteMedia] = useState<MediaItem[]>([]);
 
@@ -25,13 +25,11 @@ export default function CardsList({
         : [...prev, mediaItem],
     );
     updateFavoriteMediaData(mediaItem);
-
-    console.log(getFavoriteMediaArray());
   };
 
   return (
     <Grid container spacing={2} mt={8}>
-      {fetchedData.map((mediaItem: MediaItem) => (
+      {mediaList.map((mediaItem: MediaItem) => (
         <Card
           key={mediaItem.id}
           mediaItem={mediaItem}
