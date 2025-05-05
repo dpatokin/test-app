@@ -27,7 +27,9 @@ export default function Card({
     (favoriteItem) => favoriteItem.id === mediaItem.id,
   );
   const mediaBaseURL = "https://image.tmdb.org/t/p/w342/";
-  const releaseDate: number = new Date(release_date)?.getFullYear();
+  const releaseDate = release_date
+    ? new Date(release_date).getFullYear()
+    : undefined;
   const movieURL = "https://www.themoviedb.org/movie/" + id;
 
   return (

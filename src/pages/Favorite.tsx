@@ -14,7 +14,7 @@ export default function Favorite() {
   return (
     <Container maxWidth="xl" sx={{ pt: 17, pb: 8 }}>
       <Typography variant="h1"> Favorite media</Typography>
-      <CardsList mediaList={favoriteMedia} />
+      <CardsList mediaData={favoriteMedia} />
     </Container>
   );
 }

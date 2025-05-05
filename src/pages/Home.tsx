@@ -1,18 +1,15 @@
-import { Box, Button as MUIButton, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import CardsList from "../components/CardsList.tsx";
-import { useFetchData } from "../hooks/useFetchData.ts";
+import useFetchMedia from "../hooks/useFetchMedia.ts";
+import { Form } from "../components/Form.tsx";
 
 export default function Home() {
-  const { fetchedData, fetchData } = useFetchData();
+  const { fetchMedia, mediaData } = useFetchMedia();
 
   return (
     <Container maxWidth="xl" sx={{ pt: 17, pb: 8 }}>
-      <Box sx={{ textAlign: "center" }}>
-        <MUIButton variant="contained" onClick={fetchData} size="large">
-          Get movies
-        </MUIButton>
-      </Box>
-      <CardsList mediaList={fetchedData} />
+      <Form fetchMedia={fetchMedia} />
+      <CardsList mediaData={mediaData} />
     </Container>
   );
 }
