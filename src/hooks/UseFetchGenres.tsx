@@ -6,7 +6,7 @@ export default function UseFetchGenres() {
 
   const fetchGenres = async (): Promise<void> => {
     const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-    const BASE_URL = "https://api.themoviedb.org/3";
+    const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL;
     const url = `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`;
 
     try {

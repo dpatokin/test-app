@@ -40,7 +40,7 @@ function getURL(
   genre: string,
 ): string {
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-  const BASE_URL = "https://api.themoviedb.org/3";
+  const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL;
   let url: string = "";
 
   switch (mediaSortType) {
@@ -56,7 +56,7 @@ function getURL(
       url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&primary_release_year=${year}`;
       break;
     case "genre":
-      url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genre}`;
+      url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genre}`;
       break;
   }
 
