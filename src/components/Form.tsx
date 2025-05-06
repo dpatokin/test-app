@@ -6,6 +6,7 @@ import {
   Select,
   MenuItem,
   TextField,
+  Autocomplete,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -14,8 +15,9 @@ import { useEffect, useState } from "react";
 import { MediaSortType } from "../types";
 import { PickerValue } from "@mui/x-date-pickers/internals";
 import dayjs from "dayjs";
-import UseFetchGenres from "../hooks/UseFetchGenres";
+import useFetchGenres from "../hooks/useFetchGenres";
 import CircularProgress from "@mui/material/CircularProgress";
+import useFetchLanguages from "../hooks/useFetchLanguages";
 
 export function Form({
   fetchMedia,
@@ -31,15 +33,23 @@ export function Form({
   const [mediaSortType, setMediaSortType] = useState<MediaSortType>("random");
   const [mediaName, setMediaName] = useState<string>("");
   const [year, setYear] = useState<string>("");
-  const { fetchGenres, genres } = UseFetchGenres();
+  const { fetchGenres, genres } = useFetchGenres();
   const [genre, setGenre] = useState<string>("");
+  const [language, setLanguage] = useState<string>("");
+  const { fetchLanguages, languages } = useFetchLanguages();
 
+  // TODO: cache this using something instead of if statement
   useEffect(() => {
-    // TODO: cache this using something instead of if statement
     if (mediaSortType === "genre" && !genres.length) {
       fetchGenres();
     }
   }, [genres.length, mediaSortType, fetchGenres]);
+
+  useEffect(() => {
+    if (mediaSortType === "language" && !languages.length) {
+      fetchLanguages();
+    }
+  }, [languages.length, mediaSortType, fetchLanguages]);
 
   return (
     <Box
@@ -63,6 +73,7 @@ export function Form({
           <MenuItem value="name">Name</MenuItem>
           <MenuItem value="year">Year</MenuItem>
           <MenuItem value="genre">Genre</MenuItem>
+          <MenuItem value="language">Language</MenuItem>
         </Select>
       </FormControl>
       {(mediaSortType === "random" || mediaSortType === "name") && (
@@ -122,6 +133,48 @@ export function Form({
           )}
         </FormControl>
       )}
+      {mediaSortType === "language" && (
+        <Autocomplete
+          sx={{ gridColumn: "7 / 10" }}
+          id="media-language-autocomplete"
+          options={languages}
+          getOptionLabel={(option) => option.english_name}
+          onChange={(_, newValue) =>
+            setLanguage(newValue ? newValue.iso_3166_1 : "")
+          }
+          renderOption={(_, option) => (
+            <Box
+              component="li"
+              key={option.iso_3166_1}
+              sx={{
+                "& > img": {
+                  mr: 2,
+                  flexShrink: 0,
+                  display: "inline-block",
+                  width: 20,
+                },
+              }}
+            >
+              <img
+                loading="lazy"
+                width="20"
+                srcSet={`https://flagcdn.com/w40/${option.iso_3166_1.toLowerCase()}.png 2x`}
+                src={`https://flagcdn.com/w20/${option.iso_3166_1.toLowerCase()}.png`}
+                alt=""
+              />
+              {option.english_name}
+            </Box>
+          )}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={languages.length ? "Country" : "Loading..."}
+              disabled={!languages.length}
+            />
+          )}
+        />
+      )}
+
       <Button
         type="submit"
         variant="outlined"

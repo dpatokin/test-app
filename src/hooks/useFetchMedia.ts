@@ -24,6 +24,8 @@ export default function useFetchMedia(): {
       const response: Response = await fetch(url);
       const result = await response.json();
 
+      console.log(result);
+
       setData(result.results);
     } catch (error) {
       console.error("Fetch error:", error);

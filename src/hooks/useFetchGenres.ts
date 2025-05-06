@@ -1,7 +1,7 @@
 import { Genre } from "../types";
 import { useState } from "react";
 
-export default function UseFetchGenres() {
+export default function useFetchGenres() {
   const [genres, setGenres] = useState<Genre[]>([]);
 
   const fetchGenres = async (): Promise<void> => {

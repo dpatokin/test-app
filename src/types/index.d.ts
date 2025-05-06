@@ -20,10 +20,16 @@ export type MediaSortType =
   | "name"
   | "year"
   | "genre"
-  | "country"
+  | "language"
   | "rating";
 
 export interface Genre {
   id: number;
   name: string;
+}
+
+export interface Language {
+  iso_3166_1: string;
+  english_name: string;
+  native_name: string;
 }
