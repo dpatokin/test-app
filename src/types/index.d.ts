@@ -15,4 +15,10 @@ export interface MediaItem {
   vote_count: number;
 }
 
-export type MediaSortType = "random" | "name";
+export type MediaSortType =
+  | "random"
+  | "name"
+  | "year"
+  | "genre"
+  | "country"
+  | "rating";

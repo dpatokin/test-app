@@ -6,6 +6,7 @@ export default function useFetchMedia(): {
   fetchMedia: (
     mediaSortType: MediaSortType,
     movieName: string,
+    year: string,
   ) => Promise<void>;
   mediaData: MediaItem[];
 } {
@@ -13,14 +14,16 @@ export default function useFetchMedia(): {
   const fetchMedia = async (
     mediaSortType: MediaSortType,
     movieName: string,
+    year: string,
   ): Promise<void> => {
-    const url = getURL(mediaSortType, movieName);
+    const url = getURL(mediaSortType, movieName, year);
 
     try {
       const response: Response = await fetch(url);
       const result = await response.json();
 
       setData(result.results);
+      console.log(result);
     } catch (error) {
       console.error("Fetch error:", error);
     }
@@ -29,7 +32,11 @@ export default function useFetchMedia(): {
   return { fetchMedia, mediaData: data };
 }
 
-function getURL(mediaSortType: MediaSortType, movieName: string): string {
+function getURL(
+  mediaSortType: MediaSortType,
+  movieName: string,
+  year: string,
+): string {
   const API_KEY = "e8e89de3a95e7f0c804df47cfb465c36";
   const BASE_URL = "https://api.themoviedb.org/3";
   let url: string = "";
@@ -37,12 +44,14 @@ function getURL(mediaSortType: MediaSortType, movieName: string): string {
   switch (mediaSortType) {
     case "random": {
       const pageNumber = Math.floor(Math.random() * 501);
-
       url = `${BASE_URL}/movie/popular?api_key=${API_KEY}&page=${pageNumber}`;
       break;
     }
     case "name":
       url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${movieName}`;
+      break;
+    case "year":
+      url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&primary_release_year=${year}`;
       break;
   }
 
