@@ -7,6 +7,7 @@ export default function useFetchMedia(): {
     mediaSortType: MediaSortType,
     movieName: string,
     year: string,
+    genre: string,
   ) => Promise<void>;
   mediaData: MediaItem[];
 } {
@@ -15,8 +16,9 @@ export default function useFetchMedia(): {
     mediaSortType: MediaSortType,
     movieName: string,
     year: string,
+    genre: string,
   ): Promise<void> => {
-    const url = getURL(mediaSortType, movieName, year);
+    const url = getURL(mediaSortType, movieName, year, genre);
 
     try {
       const response: Response = await fetch(url);
@@ -35,6 +37,7 @@ function getURL(
   mediaSortType: MediaSortType,
   movieName: string,
   year: string,
+  genre: string,
 ): string {
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
   const BASE_URL = "https://api.themoviedb.org/3";
@@ -51,6 +54,9 @@ function getURL(
       break;
     case "year":
       url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&primary_release_year=${year}`;
+      break;
+    case "genre":
+      url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genre}`;
       break;
   }
 

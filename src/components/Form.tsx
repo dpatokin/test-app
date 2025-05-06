@@ -10,10 +10,12 @@ import {
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MediaSortType } from "../types";
 import { PickerValue } from "@mui/x-date-pickers/internals";
 import dayjs from "dayjs";
+import UseFetchGenres from "../hooks/UseFetchGenres";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export function Form({
   fetchMedia,
@@ -22,12 +24,22 @@ export function Form({
     mediaSortType: MediaSortType,
     mediaName: string,
     year: string,
+    genre: string,
   ) => Promise<void>;
 }) {
   // TODO: Add useReducer?
   const [mediaSortType, setMediaSortType] = useState<MediaSortType>("random");
   const [mediaName, setMediaName] = useState<string>("");
   const [year, setYear] = useState<string>("");
+  const { fetchGenres, genres } = UseFetchGenres();
+  const [genre, setGenre] = useState<string>("");
+
+  useEffect(() => {
+    // TODO: cache this using something instead of if statement
+    if (mediaSortType === "genre" && !genres.length) {
+      fetchGenres();
+    }
+  }, [genres.length, mediaSortType, fetchGenres]);
 
   return (
     <Box
@@ -35,7 +47,7 @@ export function Form({
       component="form"
       onSubmit={(e) => {
         e.preventDefault();
-        fetchMedia(mediaSortType, mediaName, year);
+        fetchMedia(mediaSortType, mediaName, year, genre);
       }}
     >
       <FormControl sx={{ gridColumn: "4 / 7" }}>
@@ -50,6 +62,7 @@ export function Form({
           <MenuItem value="random">Random</MenuItem>
           <MenuItem value="name">Name</MenuItem>
           <MenuItem value="year">Year</MenuItem>
+          <MenuItem value="genre">Genre</MenuItem>
         </Select>
       </FormControl>
       {(mediaSortType === "random" || mediaSortType === "name") && (
@@ -76,6 +89,37 @@ export function Form({
               }
             />
           </LocalizationProvider>
+        </FormControl>
+      )}
+      {mediaSortType === "genre" && (
+        <FormControl sx={{ gridColumn: "7 / 10" }}>
+          <InputLabel id="media-genre-select-label">
+            {genres.length ? "Genre" : "Loading..."}
+          </InputLabel>
+          <Select
+            labelId="media-genre-select-label"
+            id="media-genre-select"
+            value={genre}
+            label={genres.length ? "Genre" : "Loading..."}
+            disabled={!genres.length}
+            onChange={(e) => setGenre(e.target.value as string)}
+          >
+            {genres.map((genre) => (
+              <MenuItem key={genre.id} value={genre.id}>
+                {genre.name}
+              </MenuItem>
+            ))}
+          </Select>
+          {!genres.length && (
+            <CircularProgress
+              sx={{
+                position: "absolute",
+                top: "calc(50% - 15px)",
+                left: "calc(50% - 15px)",
+              }}
+              size={30}
+            />
+          )}
         </FormControl>
       )}
       <Button

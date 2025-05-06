@@ -22,3 +22,8 @@ export type MediaSortType =
   | "genre"
   | "country"
   | "rating";
+
+export interface Genre {
+  id: number;
+  name: string;
+}
