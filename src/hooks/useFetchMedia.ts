@@ -23,7 +23,6 @@ export default function useFetchMedia(): {
       const result = await response.json();
 
       setData(result.results);
-      console.log(result);
     } catch (error) {
       console.error("Fetch error:", error);
     }
@@ -37,7 +36,7 @@ function getURL(
   movieName: string,
   year: string,
 ): string {
-  const API_KEY = "e8e89de3a95e7f0c804df47cfb465c36";
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
   const BASE_URL = "https://api.themoviedb.org/3";
   let url: string = "";
 
