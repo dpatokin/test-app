@@ -20,6 +20,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import useFetchLanguages from "../../hooks/useFetchLanguages.ts";
 import MediaSortTypeSelector from "./MediaSortTypeSelector.tsx";
 import NameInput from "./NameInput.tsx";
+import YearInput from "./YearInput.tsx";
 
 export function Form({
   fetchMedia,
@@ -74,21 +75,7 @@ export function Form({
           disabled={mediaSortType !== "name"}
         />
       )}
-      {mediaSortType === "year" && (
-        <FormControl sx={{ gridColumn: "7 / 10" }}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Year"
-              views={["year"]}
-              openTo="year"
-              maxDate={dayjs()}
-              onChange={(value: PickerValue) =>
-                setYear(value ? value.format("YYYY") : "")
-              }
-            />
-          </LocalizationProvider>
-        </FormControl>
-      )}
+      {mediaSortType === "year" && <YearInput setYear={setYear} />}
       {mediaSortType === "genre" && (
         <FormControl sx={{ gridColumn: "7 / 10" }}>
           <InputLabel id="media-genre-select-label">
