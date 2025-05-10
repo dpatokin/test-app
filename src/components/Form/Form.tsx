@@ -12,12 +12,13 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useEffect, useState } from "react";
-import { MediaSortType } from "../types";
+import { MediaSortType } from "../../types";
 import { PickerValue } from "@mui/x-date-pickers/internals";
 import dayjs from "dayjs";
-import useFetchGenres from "../hooks/useFetchGenres";
+import useFetchGenres from "../../hooks/useFetchGenres.ts";
 import CircularProgress from "@mui/material/CircularProgress";
-import useFetchLanguages from "../hooks/useFetchLanguages";
+import useFetchLanguages from "../../hooks/useFetchLanguages.ts";
+import MediaSortTypeSelector from "./MediaSortTypeSelector.tsx";
 
 export function Form({
   fetchMedia,
@@ -61,22 +62,10 @@ export function Form({
         fetchMedia(mediaSortType, mediaName, year, genre, language);
       }}
     >
-      <FormControl sx={{ gridColumn: "4 / 7" }}>
-        <InputLabel id="media-type-select-label">Search by...</InputLabel>
-        <Select
-          labelId="media-type-select-label"
-          id="media-type-select"
-          value={mediaSortType}
-          label="Select by..."
-          onChange={(e) => setMediaSortType(e.target.value as MediaSortType)}
-        >
-          <MenuItem value="random">Random</MenuItem>
-          <MenuItem value="name">Name</MenuItem>
-          <MenuItem value="year">Year</MenuItem>
-          <MenuItem value="genre">Genre</MenuItem>
-          <MenuItem value="language">Language</MenuItem>
-        </Select>
-      </FormControl>
+      <MediaSortTypeSelector
+        mediaSortType={mediaSortType}
+        setMediaSortType={setMediaSortType}
+      />
       {(mediaSortType === "random" || mediaSortType === "name") && (
         <FormControl sx={{ gridColumn: "7 / 10" }}>
           <TextField
@@ -170,7 +159,7 @@ export function Form({
           renderInput={(params) => (
             <TextField
               {...params}
-              label={languages.length ? "Country" : "Loading..."}
+              label={languages.length ? "Language" : "Loading..."}
               disabled={!languages.length}
             />
           )}
