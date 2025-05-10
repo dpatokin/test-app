@@ -13,8 +13,6 @@ export default function useFetchLanguages() {
       const response: Response = await fetch(url);
       const result = await response.json();
 
-      console.log(result);
-
       setLanguages(result);
     } catch (error) {
       console.error("Fetch error:", error);

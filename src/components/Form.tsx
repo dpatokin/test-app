@@ -27,6 +27,7 @@ export function Form({
     mediaName: string,
     year: string,
     genre: string,
+    language: string,
   ) => Promise<void>;
 }) {
   // TODO: Add useReducer?
@@ -57,7 +58,7 @@ export function Form({
       component="form"
       onSubmit={(e) => {
         e.preventDefault();
-        fetchMedia(mediaSortType, mediaName, year, genre);
+        fetchMedia(mediaSortType, mediaName, year, genre, language);
       }}
     >
       <FormControl sx={{ gridColumn: "4 / 7" }}>
@@ -140,11 +141,12 @@ export function Form({
           options={languages}
           getOptionLabel={(option) => option.english_name}
           onChange={(_, newValue) =>
-            setLanguage(newValue ? newValue.iso_3166_1 : "")
+            setLanguage(newValue ? newValue.iso_3166_1.toLowerCase() : "")
           }
-          renderOption={(_, option) => (
+          renderOption={(props, option) => (
             <Box
               component="li"
+              {...props}
               key={option.iso_3166_1}
               sx={{
                 "& > img": {

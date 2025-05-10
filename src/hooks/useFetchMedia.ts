@@ -8,6 +8,7 @@ export default function useFetchMedia(): {
     movieName: string,
     year: string,
     genre: string,
+    language: string,
   ) => Promise<void>;
   mediaData: MediaItem[];
 } {
@@ -17,14 +18,13 @@ export default function useFetchMedia(): {
     movieName: string,
     year: string,
     genre: string,
+    language: string,
   ): Promise<void> => {
-    const url = getURL(mediaSortType, movieName, year, genre);
+    const url = getURL(mediaSortType, movieName, year, genre, language);
 
     try {
       const response: Response = await fetch(url);
       const result = await response.json();
-
-      console.log(result);
 
       setData(result.results);
     } catch (error) {
@@ -40,6 +40,7 @@ function getURL(
   movieName: string,
   year: string,
   genre: string,
+  language: string,
 ): string {
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
   const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL;
@@ -59,6 +60,9 @@ function getURL(
       break;
     case "genre":
       url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genre}`;
+      break;
+    case "language":
+      url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_original_language=${language}`;
       break;
   }
 
