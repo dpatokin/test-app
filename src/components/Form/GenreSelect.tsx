@@ -10,21 +10,21 @@ export default function GenreSelect({
   setGenre: (genre: string) => void;
 }) {
   const { fetchGenres, genres } = useFetchGenres();
+  const label = genres.length ? "Genre" : "Loading...";
 
+  // TODO: how to don't fetch genres every component mount
   useEffect(() => {
     fetchGenres();
   }, []);
 
   return (
     <FormControl sx={{ gridColumn: "7 / 10" }}>
-      <InputLabel id="media-genre-select-label">
-        {genres.length ? "Genre" : "Loading..."}
-      </InputLabel>
+      <InputLabel id="media-genre-select-label">{label}</InputLabel>
       <Select
         labelId="media-genre-select-label"
         id="media-genre-select"
         value={genre}
-        label={genres.length ? "Genre" : "Loading..."}
+        label={label}
         disabled={!genres.length}
         onChange={(e) => setGenre(e.target.value as string)}
       >
