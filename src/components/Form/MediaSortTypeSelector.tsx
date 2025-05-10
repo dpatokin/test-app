@@ -24,6 +24,7 @@ export default function MediaSortTypeSelector({
     "language",
     "rating",
   ];
+
   return (
     <FormControl sx={{ gridColumn: "4 / 7" }}>
       <InputLabel id="media-type-select-label">Search by...</InputLabel>
@@ -33,13 +34,15 @@ export default function MediaSortTypeSelector({
         value={mediaSortType}
         label="Select by..."
         onChange={(e) => {
-          setMediaSortType(e.target.value as MediaSortType);
+          const sortType: MediaSortType = e.target.value;
 
-          if (mediaSortType === "genre" && !genres.length) {
+          setMediaSortType(sortType);
+
+          if (sortType === "genre" && !genres.length) {
             fetchGenres();
           }
 
-          if (mediaSortType === "language" && !languages.length) {
+          if (sortType === "language" && !languages.length) {
             fetchLanguages();
           }
         }}
