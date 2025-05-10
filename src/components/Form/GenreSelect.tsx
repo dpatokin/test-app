@@ -1,21 +1,16 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { useEffect } from "react";
-import useFetchGenres from "../../hooks/useFetchGenres.ts";
+import { Genre } from "../../types";
 
 export default function GenreSelect({
+  genres,
   genre,
   setGenre,
 }: {
+  genres: Genre[];
   genre: string;
   setGenre: (genre: string) => void;
 }) {
-  const { fetchGenres, genres } = useFetchGenres();
   const label = genres.length ? "Genre" : "Loading...";
-
-  // TODO: how to don't fetch genres every component mount
-  useEffect(() => {
-    fetchGenres();
-  }, []);
 
   return (
     <FormControl sx={{ gridColumn: "7 / 10" }}>

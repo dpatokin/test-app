@@ -1,11 +1,13 @@
-import { Box, Button, TextField, Autocomplete } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Button } from "@mui/material";
+import { useState } from "react";
 import { MediaSortType } from "../../types";
+import useFetchGenres from "../../hooks/useFetchGenres.ts";
 import useFetchLanguages from "../../hooks/useFetchLanguages.ts";
 import MediaSortTypeSelector from "./MediaSortTypeSelector.tsx";
 import NameInput from "./NameInput.tsx";
 import YearInput from "./YearInput.tsx";
 import GenreSelect from "./GenreSelect.tsx";
+import LanguageAutocomplete from "./LanguageAutocomplete.tsx";
 
 export function Form({
   fetchMedia,
@@ -18,20 +20,13 @@ export function Form({
     language: string,
   ) => Promise<void>;
 }) {
-  // TODO: Add useReducer?
   const [mediaSortType, setMediaSortType] = useState<MediaSortType>("random");
   const [mediaName, setMediaName] = useState<string>("");
   const [year, setYear] = useState<string>("");
   const [genre, setGenre] = useState<string>("");
   const [language, setLanguage] = useState<string>("");
+  const { fetchGenres, genres } = useFetchGenres();
   const { fetchLanguages, languages } = useFetchLanguages();
-
-  // TODO: cache this using something instead of if statement
-  useEffect(() => {
-    if (mediaSortType === "language" && !languages.length) {
-      fetchLanguages();
-    }
-  }, [languages.length, mediaSortType, fetchLanguages]);
 
   return (
     <Box
@@ -45,6 +40,10 @@ export function Form({
       <MediaSortTypeSelector
         mediaSortType={mediaSortType}
         setMediaSortType={setMediaSortType}
+        fetchGenres={fetchGenres}
+        genres={genres}
+        fetchLanguages={fetchLanguages}
+        languages={languages}
       />
       {(mediaSortType === "random" || mediaSortType === "name") && (
         <NameInput
@@ -55,49 +54,10 @@ export function Form({
       )}
       {mediaSortType === "year" && <YearInput setYear={setYear} />}
       {mediaSortType === "genre" && (
-        <GenreSelect genre={genre} setGenre={setGenre} />
+        <GenreSelect genres={genres} genre={genre} setGenre={setGenre} />
       )}
       {mediaSortType === "language" && (
-        <Autocomplete
-          sx={{ gridColumn: "7 / 10" }}
-          id="media-language-autocomplete"
-          options={languages}
-          getOptionLabel={(option) => option.english_name}
-          onChange={(_, newValue) =>
-            setLanguage(newValue ? newValue.iso_3166_1.toLowerCase() : "")
-          }
-          renderOption={(props, option) => (
-            <Box
-              component="li"
-              {...props}
-              key={option.iso_3166_1}
-              sx={{
-                "& > img": {
-                  mr: 2,
-                  flexShrink: 0,
-                  display: "inline-block",
-                  width: 20,
-                },
-              }}
-            >
-              <img
-                loading="lazy"
-                width="20"
-                srcSet={`https://flagcdn.com/w40/${option.iso_3166_1.toLowerCase()}.png 2x`}
-                src={`https://flagcdn.com/w20/${option.iso_3166_1.toLowerCase()}.png`}
-                alt=""
-              />
-              {option.english_name}
-            </Box>
-          )}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={languages.length ? "Language" : "Loading..."}
-              disabled={!languages.length}
-            />
-          )}
-        />
+        <LanguageAutocomplete languages={languages} setLanguage={setLanguage} />
       )}
       <Button
         type="submit"
