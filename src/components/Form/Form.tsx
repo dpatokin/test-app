@@ -19,6 +19,7 @@ import useFetchGenres from "../../hooks/useFetchGenres.ts";
 import CircularProgress from "@mui/material/CircularProgress";
 import useFetchLanguages from "../../hooks/useFetchLanguages.ts";
 import MediaSortTypeSelector from "./MediaSortTypeSelector.tsx";
+import NameInput from "./NameInput.tsx";
 
 export function Form({
   fetchMedia,
@@ -67,15 +68,11 @@ export function Form({
         setMediaSortType={setMediaSortType}
       />
       {(mediaSortType === "random" || mediaSortType === "name") && (
-        <FormControl sx={{ gridColumn: "7 / 10" }}>
-          <TextField
-            id="media-name-input"
-            label="Movie name"
-            value={mediaName}
-            disabled={mediaSortType !== "name"}
-            onChange={(e) => setMediaName(e.target.value)}
-          />
-        </FormControl>
+        <NameInput
+          mediaName={mediaName}
+          setMediaName={setMediaName}
+          disabled={mediaSortType !== "name"}
+        />
       )}
       {mediaSortType === "year" && (
         <FormControl sx={{ gridColumn: "7 / 10" }}>
