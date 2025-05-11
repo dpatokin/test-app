@@ -7,7 +7,7 @@ export default function useFetchLanguages() {
   const fetchLanguages = async (): Promise<void> => {
     const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
     const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL;
-    const url = `${BASE_URL}/configuration/countries?api_key=${API_KEY}&language=en-US`;
+    const url = `${BASE_URL}/configuration/languages?api_key=${API_KEY}`;
 
     try {
       const response: Response = await fetch(url);

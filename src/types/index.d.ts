@@ -29,7 +29,7 @@ export interface Genre {
 }
 
 export interface Language {
-  iso_3166_1: string;
   english_name: string;
-  native_name: string;
+  iso_639_1: string;
+  name: string;
 }

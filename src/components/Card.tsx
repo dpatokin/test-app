@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid";
-import { Genre, MediaItem } from "../types";
+import { Genre, Language, MediaItem } from "../types";
 import { ReactElement } from "react";
 import {
   Box,
@@ -20,11 +20,13 @@ export default function Card({
   favoriteMedia,
   onToggleFavorite,
   genresList,
+  languagesList,
 }: {
   mediaItem: MediaItem;
   favoriteMedia: MediaItem[];
   onToggleFavorite: (mediaItem: MediaItem) => void;
   genresList: Genre[];
+  languagesList: Language[];
 }): ReactElement {
   const {
     id,
@@ -48,6 +50,9 @@ export default function Card({
     : undefined;
   const movieURL = "https://www.themoviedb.org/movie/" + id;
   const genres = genresList.filter((genre) => genre_ids.includes(genre.id));
+  const originalLanguage = languagesList.find(
+    (language) => language.iso_639_1 === original_language,
+  );
 
   return (
     <Grid size={6} className="seriesCard">
@@ -91,7 +96,7 @@ export default function Card({
               Release date: {releaseDate}
             </Typography>
             <Typography variant="body2" sx={{ color: "text.disabled" }}>
-              Original language: {original_language.toUpperCase()}
+              Original language: {originalLanguage?.english_name}
             </Typography>
             <Stack direction="row" spacing={0.5} sx={{ mt: 2 }}>
               {genres.map((genre) => (

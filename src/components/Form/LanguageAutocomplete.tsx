@@ -21,13 +21,13 @@ export default function LanguageAutocomplete({
       options={languages}
       getOptionLabel={(option) => option.english_name}
       onChange={(_, newValue) =>
-        setLanguage(newValue ? newValue.iso_3166_1.toLowerCase() : "")
+        setLanguage(newValue ? newValue.iso_639_1.toLowerCase() : "")
       }
       renderOption={(props, option) => (
         <Box
           component="li"
           {...props}
-          key={option.iso_3166_1}
+          key={option.iso_639_1}
           sx={{
             "& > img": {
               mr: 2,
@@ -37,13 +37,6 @@ export default function LanguageAutocomplete({
             },
           }}
         >
-          <img
-            loading="lazy"
-            width="20"
-            srcSet={`https://flagcdn.com/w40/${option.iso_3166_1.toLowerCase()}.png 2x`}
-            src={`https://flagcdn.com/w20/${option.iso_3166_1.toLowerCase()}.png`}
-            alt=""
-          />
           {option.english_name}
         </Box>
       )}

@@ -34,6 +34,8 @@ export function Form({
     language: "",
   });
 
+  console.log(languages);
+
   const validate = () => {
     const newErrors = { mediaName: "", year: "", genre: "", language: "" };
 
