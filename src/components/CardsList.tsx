@@ -24,8 +24,6 @@ export default function CardsList({
     fetchLanguages();
   }, []);
 
-  console.log(languages);
-
   const handleToggleFavorite = (mediaItem: MediaItem) => {
     setFavoriteMedia((prev) =>
       prev.some((favoriteItem) => favoriteItem.id === mediaItem.id)

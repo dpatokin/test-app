@@ -26,7 +26,9 @@ export default function MediaSortTypeSelector({
   ];
 
   return (
-    <FormControl sx={{ gridColumn: "4 / 7" }}>
+    <FormControl
+      sx={{ gridColumn: mediaSortType === "random" ? "4 / 10" : "4 / 7" }}
+    >
       <InputLabel id="media-type-select-label">Search by...</InputLabel>
       <Select
         labelId="media-type-select-label"

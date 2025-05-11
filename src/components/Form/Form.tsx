@@ -34,8 +34,6 @@ export function Form({
     language: "",
   });
 
-  console.log(languages);
-
   const validate = () => {
     const newErrors = { mediaName: "", year: "", genre: "", language: "" };
 
@@ -81,11 +79,10 @@ export function Form({
         fetchLanguages={fetchLanguages}
         languages={languages}
       />
-      {(mediaSortType === "random" || mediaSortType === "name") && (
+      {mediaSortType === "name" && (
         <NameInput
           mediaName={mediaName}
           setMediaName={setMediaName}
-          disabled={mediaSortType !== "name"}
           error={!!errors.mediaName}
           helperText={errors.mediaName}
         />
