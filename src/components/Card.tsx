@@ -60,15 +60,18 @@ export default function Card({
         className="seriesCard"
         sx={{ display: "flex", alignItems: "flex-start", height: "100%" }}
       >
-        {poster && (
-          <CardMedia
-            component="img"
-            width="240px"
-            image={mediaBaseURL + poster}
-            alt={title}
-            sx={{ width: "240px" }}
-          />
-        )}
+        <CardMedia
+          component="img"
+          width="240px"
+          height="100%"
+          image={
+            poster
+              ? mediaBaseURL + poster
+              : "https://placehold.co/240x360/222/fff?text=No+Image"
+          }
+          alt={title}
+          sx={{ width: "240px" }}
+        />
         <Box
           sx={{
             display: "flex",
