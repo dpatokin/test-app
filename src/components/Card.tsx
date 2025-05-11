@@ -22,7 +22,19 @@ export default function Card({
   favoriteMedia: MediaItem[];
   onToggleFavorite: (mediaItem: MediaItem) => void;
 }): ReactElement {
-  const { id, release_date, poster_path: poster, title, overview } = mediaItem;
+  const {
+    id,
+    release_date,
+    poster_path: poster,
+    title,
+    overview,
+    original_language,
+    original_title,
+    adult,
+    genre_ids,
+  } = mediaItem;
+  const originalTitle =
+    original_title && original_language !== "en" ? original_title : undefined;
   const isFavorite = favoriteMedia.some(
     (favoriteItem) => favoriteItem.id === mediaItem.id,
   );
@@ -54,7 +66,7 @@ export default function Card({
             height: "100%",
           }}
         >
-          <CardHeader title={title} subheader={releaseDate} />
+          <CardHeader title={title} subheader={originalTitle} />
           <CardContent>
             <Typography
               sx={{
@@ -67,6 +79,23 @@ export default function Card({
             >
               {overview}
             </Typography>
+            <Typography
+              variant="body2"
+              sx={{ mt: 1.5, color: "text.disabled" }}
+            >
+              Release date: {releaseDate}
+            </Typography>
+            <Typography variant="body2" sx={{ color: "text.disabled" }}>
+              Original language: {original_language}
+            </Typography>
+            <Typography variant="body2" sx={{ color: "text.disabled" }}>
+              Genres: {genre_ids}
+            </Typography>
+            {adult && (
+              <Typography variant="body2" sx={{ color: "text.disabled" }}>
+                For adults
+              </Typography>
+            )}
           </CardContent>
           <CardActions
             sx={{
