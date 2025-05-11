@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid";
-import { MediaItem } from "../types";
+import { Genre, MediaItem } from "../types";
 import { ReactElement } from "react";
 import {
   Box,
@@ -10,6 +10,8 @@ import {
   CardMedia,
   Typography,
   Button,
+  Stack,
+  Chip,
 } from "@mui/material";
 import { CardButtonFavorite } from "./CardButtonFavorite.tsx";
 
@@ -17,10 +19,12 @@ export default function Card({
   mediaItem,
   favoriteMedia,
   onToggleFavorite,
+  genresList,
 }: {
   mediaItem: MediaItem;
   favoriteMedia: MediaItem[];
   onToggleFavorite: (mediaItem: MediaItem) => void;
+  genresList: Genre[];
 }): ReactElement {
   const {
     id,
@@ -43,6 +47,7 @@ export default function Card({
     ? new Date(release_date).getFullYear()
     : undefined;
   const movieURL = "https://www.themoviedb.org/movie/" + id;
+  const genres = genresList.filter((genre) => genre_ids.includes(genre.id));
 
   return (
     <Grid size={6} className="seriesCard">
@@ -86,11 +91,18 @@ export default function Card({
               Release date: {releaseDate}
             </Typography>
             <Typography variant="body2" sx={{ color: "text.disabled" }}>
-              Original language: {original_language}
+              Original language: {original_language.toUpperCase()}
             </Typography>
-            <Typography variant="body2" sx={{ color: "text.disabled" }}>
-              Genres: {genre_ids}
-            </Typography>
+            <Stack direction="row" spacing={0.5} sx={{ mt: 2 }}>
+              {genres.map((genre) => (
+                <Chip
+                  key={genre.id}
+                  label={genre.name}
+                  variant="outlined"
+                  size="small"
+                />
+              ))}
+            </Stack>
             {adult && (
               <Typography variant="body2" sx={{ color: "text.disabled" }}>
                 For adults

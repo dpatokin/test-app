@@ -6,6 +6,7 @@ import {
 import { MediaItem } from "../types";
 import { Grid } from "@mui/material";
 import Card from "./Card.tsx";
+import useFetchGenres from "../hooks/useFetchGenres.ts";
 
 export default function CardsList({
   mediaData,
@@ -13,9 +14,11 @@ export default function CardsList({
   mediaData: MediaItem[];
 }): ReactElement {
   const [favoriteMedia, setFavoriteMedia] = useState<MediaItem[]>([]);
+  const { fetchGenres, genres } = useFetchGenres();
 
   useEffect(() => {
     setFavoriteMedia(getFavoriteMediaArray());
+    fetchGenres();
   }, []);
 
   const handleToggleFavorite = (mediaItem: MediaItem) => {
@@ -35,6 +38,7 @@ export default function CardsList({
           mediaItem={mediaItem}
           favoriteMedia={favoriteMedia}
           onToggleFavorite={handleToggleFavorite}
+          genresList={genres}
         />
       ))}
     </Grid>
