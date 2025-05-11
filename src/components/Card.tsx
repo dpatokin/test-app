@@ -1,6 +1,3 @@
-import Grid from "@mui/material/Grid";
-import { MediaItem } from "../types";
-import { ReactElement } from "react";
 import {
   Box,
   Card as MUICard,
@@ -13,8 +10,12 @@ import {
   Stack,
   Chip,
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import { MediaItem } from "../types";
+import { ReactElement } from "react";
 import { CardButtonFavorite } from "./CardButtonFavorite.tsx";
 import { useGlobalData } from "../hooks/useGlobalData.tsx";
+import UserScorePieChar from "./Card/UserScorePieChart.tsx";
 
 export default function Card({
   mediaItem,
@@ -35,6 +36,7 @@ export default function Card({
     original_title,
     adult,
     genre_ids,
+    vote_average,
   } = mediaItem;
   const originalTitle =
     original_title && original_language !== "en" ? original_title : undefined;
@@ -51,7 +53,9 @@ export default function Card({
   const originalLanguage = languagesList.find(
     (language) => language.iso_639_1 === original_language,
   );
+  const userScore = Math.round(vote_average * 10);
 
+  // TODO: split Card into components
   return (
     <Grid size={6} className="seriesCard">
       <MUICard
@@ -90,15 +94,29 @@ export default function Card({
             >
               {overview}
             </Typography>
-            <Typography
-              variant="body2"
-              sx={{ mt: 1.5, color: "text.disabled" }}
+            <Stack
+              direction="row"
+              width="100%"
+              justifyContent="space-between"
+              textAlign="start"
+              spacing={2}
+              sx={{ mt: 1.5 }}
             >
-              Release date: {releaseDate}
-            </Typography>
-            <Typography variant="body2" sx={{ color: "text.disabled" }}>
-              Original language: {originalLanguage?.english_name}
-            </Typography>
+              <Box>
+                <Typography variant="body2" sx={{ color: "text.disabled" }}>
+                  Release date: {releaseDate}
+                </Typography>
+                <Typography variant="body2" sx={{ color: "text.disabled" }}>
+                  Original language: {originalLanguage?.english_name}
+                </Typography>
+              </Box>
+              {adult && (
+                <Typography variant="body2" sx={{ color: "text.disabled" }}>
+                  For adults
+                </Typography>
+              )}
+              <UserScorePieChar userScore={userScore} />
+            </Stack>
             <Stack direction="row" spacing={0.5} sx={{ mt: 2 }}>
               {genres.map((genre) => (
                 <Chip
@@ -109,11 +127,6 @@ export default function Card({
                 />
               ))}
             </Stack>
-            {adult && (
-              <Typography variant="body2" sx={{ color: "text.disabled" }}>
-                For adults
-              </Typography>
-            )}
           </CardContent>
           <CardActions
             sx={{

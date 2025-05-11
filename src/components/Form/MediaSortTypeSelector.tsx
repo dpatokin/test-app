@@ -14,7 +14,6 @@ export default function MediaSortTypeSelector({
     "year",
     "genre",
     "language",
-    "rating",
   ];
 
   return (
