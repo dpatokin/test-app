@@ -1,19 +1,29 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { Genre } from "../../types";
 
 export default function GenreSelect({
   genres,
   genre,
   setGenre,
+  error,
+  helperText,
 }: {
   genres: Genre[];
   genre: string;
   setGenre: (genre: string) => void;
+  error: boolean;
+  helperText: string;
 }) {
   const label = genres.length ? "Genre" : "Loading...";
 
   return (
-    <FormControl sx={{ gridColumn: "7 / 10" }}>
+    <FormControl sx={{ gridColumn: "7 / 10" }} error={error}>
       <InputLabel id="media-genre-select-label">{label}</InputLabel>
       <Select
         labelId="media-genre-select-label"
@@ -29,6 +39,7 @@ export default function GenreSelect({
           </MenuItem>
         ))}
       </Select>
+      <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
   );
 }

@@ -4,9 +4,13 @@ import { Language } from "../../types";
 export default function LanguageAutocomplete({
   languages,
   setLanguage,
+  error,
+  helperText,
 }: {
   languages: Language[];
   setLanguage: (language: string) => void;
+  error: boolean;
+  helperText: string;
 }) {
   const label = languages.length ? "Language" : "Loading...";
 
@@ -44,7 +48,13 @@ export default function LanguageAutocomplete({
         </Box>
       )}
       renderInput={(params) => (
-        <TextField {...params} label={label} disabled={!languages.length} />
+        <TextField
+          {...params}
+          label={label}
+          disabled={!languages.length}
+          error={error}
+          helperText={helperText}
+        />
       )}
     />
   );

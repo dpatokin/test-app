@@ -27,6 +27,38 @@ export function Form({
   const [language, setLanguage] = useState<string>("");
   const { fetchGenres, genres } = useFetchGenres();
   const { fetchLanguages, languages } = useFetchLanguages();
+  const [errors, setErrors] = useState({
+    mediaName: "",
+    year: "",
+    genre: "",
+    language: "",
+  });
+
+  const validate = () => {
+    const newErrors = { mediaName: "", year: "", genre: "", language: "" };
+
+    if (mediaSortType === "name" && mediaName.trim() === "") {
+      newErrors.mediaName = "Please enter a movie name";
+    }
+    if (
+      mediaSortType === "year" &&
+      (year.trim() === "" ||
+        year.trim() < "1900" ||
+        year.trim() > new Date().getFullYear().toString())
+    ) {
+      newErrors.year = "Please select a correct year";
+    }
+    if (mediaSortType === "genre" && !genre) {
+      newErrors.genre = "Please select a genre";
+    }
+    if (mediaSortType === "language" && !language) {
+      newErrors.language = "Please select a language";
+    }
+
+    setErrors(newErrors);
+
+    return Object.values(newErrors).every((error) => error === "");
+  };
 
   return (
     <Box
@@ -34,7 +66,9 @@ export function Form({
       component="form"
       onSubmit={(e) => {
         e.preventDefault();
-        fetchMedia(mediaSortType, mediaName, year, genre, language);
+        if (validate()) {
+          fetchMedia(mediaSortType, mediaName, year, genre, language);
+        }
       }}
     >
       <MediaSortTypeSelector
@@ -50,14 +84,29 @@ export function Form({
           mediaName={mediaName}
           setMediaName={setMediaName}
           disabled={mediaSortType !== "name"}
+          error={!!errors.mediaName}
+          helperText={errors.mediaName}
         />
       )}
-      {mediaSortType === "year" && <YearInput setYear={setYear} />}
+      {mediaSortType === "year" && (
+        <YearInput setYear={setYear} helperText={errors.year} />
+      )}
       {mediaSortType === "genre" && (
-        <GenreSelect genres={genres} genre={genre} setGenre={setGenre} />
+        <GenreSelect
+          genres={genres}
+          genre={genre}
+          setGenre={setGenre}
+          error={!!errors.genre}
+          helperText={errors.genre}
+        />
       )}
       {mediaSortType === "language" && (
-        <LanguageAutocomplete languages={languages} setLanguage={setLanguage} />
+        <LanguageAutocomplete
+          languages={languages}
+          setLanguage={setLanguage}
+          error={!!errors.language}
+          helperText={errors.language}
+        />
       )}
       <Button
         type="submit"

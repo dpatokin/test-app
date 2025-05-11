@@ -5,10 +5,12 @@ import dayjs from "dayjs";
 import { PickerValue } from "@mui/x-date-pickers/internals";
 import { FormControl } from "@mui/material";
 
-export default function yearInput({
+export default function YearInput({
   setYear,
+  helperText,
 }: {
   setYear: (year: string) => void;
+  helperText: string;
 }) {
   return (
     <FormControl sx={{ gridColumn: "7 / 10" }}>
@@ -17,10 +19,16 @@ export default function yearInput({
           label="Year"
           views={["year"]}
           openTo="year"
+          minDate={dayjs("1900-01-01")}
           maxDate={dayjs()}
           onChange={(value: PickerValue) =>
             setYear(value ? value.format("YYYY") : "")
           }
+          slotProps={{
+            textField: {
+              helperText: helperText,
+            },
+          }}
         />
       </LocalizationProvider>
     </FormControl>
