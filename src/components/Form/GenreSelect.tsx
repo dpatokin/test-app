@@ -5,7 +5,7 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { useGlobalData } from "../../context/GlobalDataContext.tsx";
+import { useGlobalData } from "../../hooks/useGlobalData";
 
 export default function GenreSelect({
   genre,

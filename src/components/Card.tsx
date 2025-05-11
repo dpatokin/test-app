@@ -14,7 +14,7 @@ import {
   Chip,
 } from "@mui/material";
 import { CardButtonFavorite } from "./CardButtonFavorite.tsx";
-import { useGlobalData } from "../context/GlobalDataContext.tsx";
+import { useGlobalData } from "../hooks/useGlobalData.tsx";
 
 export default function Card({
   mediaItem,

@@ -1,5 +1,5 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
-import { useGlobalData } from "../../context/GlobalDataContext.tsx";
+import { useGlobalData } from "../../hooks/useGlobalData";
 
 export default function LanguageAutocomplete({
   setLanguage,

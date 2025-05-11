@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useState,
-  useEffect,
-  useContext,
-  ReactNode,
-} from "react";
+import { createContext, useState, useEffect, ReactNode } from "react";
 import { Genre, Language } from "../types";
 
 export interface GlobalDataContextType {
@@ -66,12 +60,4 @@ export const GlobalDataProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useGlobalData = () => {
-  const context = useContext(GlobalDataContext);
-
-  if (!context) {
-    throw new Error("useGlobalData must be used within a GlobalDataProvider");
-  }
-
-  return context;
-};
+export default GlobalDataContext;
