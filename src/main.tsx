@@ -5,13 +5,16 @@ import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { darkTheme } from "./theme.ts";
 import { BrowserRouter } from "react-router-dom";
+import { GlobalDataProvider } from "./context/GlobalDataContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <App />
+        <GlobalDataProvider>
+          <App />
+        </GlobalDataProvider>
       </ThemeProvider>
     </BrowserRouter>
   </StrictMode>,

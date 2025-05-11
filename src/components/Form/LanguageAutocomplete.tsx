@@ -1,18 +1,16 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
-import { Language } from "../../types";
+import { useGlobalData } from "../../context/GlobalDataContext.tsx";
 
 export default function LanguageAutocomplete({
-  languages,
   setLanguage,
   error,
   helperText,
 }: {
-  languages: Language[];
   setLanguage: (language: string) => void;
   error: boolean;
   helperText: string;
 }) {
-  const label = languages.length ? "Language" : "Loading...";
+  const { languages } = useGlobalData();
 
   return (
     <Autocomplete
@@ -43,7 +41,7 @@ export default function LanguageAutocomplete({
       renderInput={(params) => (
         <TextField
           {...params}
-          label={label}
+          label="Language"
           disabled={!languages.length}
           error={error}
           helperText={helperText}

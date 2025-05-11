@@ -1,20 +1,12 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { Genre, Language, MediaSortType } from "../../types";
+import { MediaSortType } from "../../types";
 
 export default function MediaSortTypeSelector({
   mediaSortType,
   setMediaSortType,
-  fetchGenres,
-  genres,
-  fetchLanguages,
-  languages,
 }: {
   mediaSortType: MediaSortType;
   setMediaSortType: (mediaSortType: MediaSortType) => void;
-  fetchGenres: () => Promise<void>;
-  genres: Genre[];
-  fetchLanguages: () => Promise<void>;
-  languages: Language[];
 }) {
   const sortTypes: MediaSortType[] = [
     "random",
@@ -35,19 +27,7 @@ export default function MediaSortTypeSelector({
         id="media-type-select"
         value={mediaSortType}
         label="Select by..."
-        onChange={(e) => {
-          const sortType: MediaSortType = e.target.value;
-
-          setMediaSortType(sortType);
-
-          if (sortType === "genre" && !genres.length) {
-            fetchGenres();
-          }
-
-          if (sortType === "language" && !languages.length) {
-            fetchLanguages();
-          }
-        }}
+        onChange={(e) => setMediaSortType(e.target.value)}
       >
         {sortTypes.map((type, i) => (
           <MenuItem key={i} value={type}>

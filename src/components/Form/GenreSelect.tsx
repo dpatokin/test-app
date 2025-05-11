@@ -5,22 +5,21 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { Genre } from "../../types";
+import { useGlobalData } from "../../context/GlobalDataContext.tsx";
 
 export default function GenreSelect({
-  genres,
   genre,
   setGenre,
   error,
   helperText,
 }: {
-  genres: Genre[];
   genre: string;
   setGenre: (genre: string) => void;
   error: boolean;
   helperText: string;
 }) {
-  const label = genres.length ? "Genre" : "Loading...";
+  const { genres } = useGlobalData();
+  const label = "Genre";
 
   return (
     <FormControl sx={{ gridColumn: "7 / 10" }} error={error}>

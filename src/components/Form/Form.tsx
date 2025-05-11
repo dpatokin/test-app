@@ -1,8 +1,6 @@
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
 import { MediaSortType } from "../../types";
-import useFetchGenres from "../../hooks/useFetchGenres.ts";
-import useFetchLanguages from "../../hooks/useFetchLanguages.ts";
 import MediaSortTypeSelector from "./MediaSortTypeSelector.tsx";
 import NameInput from "./NameInput.tsx";
 import YearInput from "./YearInput.tsx";
@@ -25,8 +23,6 @@ export function Form({
   const [year, setYear] = useState<string>("");
   const [genre, setGenre] = useState<string>("");
   const [language, setLanguage] = useState<string>("");
-  const { fetchGenres, genres } = useFetchGenres();
-  const { fetchLanguages, languages } = useFetchLanguages();
   const [errors, setErrors] = useState({
     mediaName: "",
     year: "",
@@ -74,10 +70,6 @@ export function Form({
       <MediaSortTypeSelector
         mediaSortType={mediaSortType}
         setMediaSortType={setMediaSortType}
-        fetchGenres={fetchGenres}
-        genres={genres}
-        fetchLanguages={fetchLanguages}
-        languages={languages}
       />
       {mediaSortType === "name" && (
         <NameInput
@@ -92,7 +84,6 @@ export function Form({
       )}
       {mediaSortType === "genre" && (
         <GenreSelect
-          genres={genres}
           genre={genre}
           setGenre={setGenre}
           error={!!errors.genre}
@@ -101,7 +92,6 @@ export function Form({
       )}
       {mediaSortType === "language" && (
         <LanguageAutocomplete
-          languages={languages}
           setLanguage={setLanguage}
           error={!!errors.language}
           helperText={errors.language}

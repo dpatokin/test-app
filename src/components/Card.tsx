@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid";
-import { Genre, Language, MediaItem } from "../types";
+import { MediaItem } from "../types";
 import { ReactElement } from "react";
 import {
   Box,
@@ -14,19 +14,16 @@ import {
   Chip,
 } from "@mui/material";
 import { CardButtonFavorite } from "./CardButtonFavorite.tsx";
+import { useGlobalData } from "../context/GlobalDataContext.tsx";
 
 export default function Card({
   mediaItem,
   favoriteMedia,
   onToggleFavorite,
-  genresList,
-  languagesList,
 }: {
   mediaItem: MediaItem;
   favoriteMedia: MediaItem[];
   onToggleFavorite: (mediaItem: MediaItem) => void;
-  genresList: Genre[];
-  languagesList: Language[];
 }): ReactElement {
   const {
     id,
@@ -49,6 +46,7 @@ export default function Card({
     ? new Date(release_date).getFullYear()
     : undefined;
   const movieURL = "https://www.themoviedb.org/movie/" + id;
+  const { genres: genresList, languages: languagesList } = useGlobalData();
   const genres = genresList.filter((genre) => genre_ids.includes(genre.id));
   const originalLanguage = languagesList.find(
     (language) => language.iso_639_1 === original_language,
