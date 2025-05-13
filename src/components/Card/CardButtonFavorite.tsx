@@ -1,6 +1,6 @@
 import { IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { MediaItem } from "../types";
+import { MediaItem } from "../../types";
 
 export function CardButtonFavorite({
   mediaItem,

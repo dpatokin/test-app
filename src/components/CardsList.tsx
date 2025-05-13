@@ -5,7 +5,7 @@ import {
 } from "../utils/favoriteMedia";
 import { MediaItem } from "../types";
 import { Grid } from "@mui/material";
-import Card from "./Card.tsx";
+import Card from "./Card/Card";
 
 export default function CardsList({
   mediaData,
