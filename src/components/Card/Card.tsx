@@ -27,6 +27,7 @@ export default function Card({
           sx={{
             display: "flex",
             flexDirection: "column",
+            flexGrow: 1,
             height: "100%",
           }}
         >
