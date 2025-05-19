@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
-import { MediaSortType } from "../../types";
+import { FetchMediaParams, MediaSortType } from "../../types";
 import MediaSortTypeSelector from "./MediaSortTypeSelector.tsx";
 import NameInput from "./NameInput.tsx";
 import YearInput from "./YearInput.tsx";
@@ -10,15 +10,10 @@ import LanguageAutocomplete from "./LanguageAutocomplete.tsx";
 export function Form({
   fetchMedia,
 }: {
-  fetchMedia: (
-    mediaSortType: MediaSortType,
-    mediaName: string,
-    year: string,
-    genre: string,
-    language: string,
-  ) => Promise<void>;
+  fetchMedia: (params: FetchMediaParams) => Promise<void>;
 }) {
   const [mediaSortType, setMediaSortType] = useState<MediaSortType>("random");
+  // TODO: reaplace all string states by one object
   const [mediaName, setMediaName] = useState<string>("");
   const [year, setYear] = useState<string>("");
   const [genre, setGenre] = useState<string>("");
@@ -62,8 +57,14 @@ export function Form({
       component="form"
       onSubmit={(e) => {
         e.preventDefault();
+        const filters = {
+          mediaName,
+          year,
+          genre,
+          language,
+        };
         if (validate()) {
-          fetchMedia(mediaSortType, mediaName, year, genre, language);
+          fetchMedia({ mediaSortType, filters });
         }
       }}
     >

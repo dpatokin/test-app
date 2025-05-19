@@ -1,19 +1,17 @@
 import { useState } from "react";
-import { MediaItem, MediaSortType } from "../types";
+import {
+  FetchMediaFilters,
+  FetchMediaParams,
+  MediaItem,
+  MediaSortType,
+} from "../types";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL;
 
-// TODO: move function to separated type, refactor amount of params (only need 2 of them)
 // TODO: prefetch pages only if mediaSortType is changed after prev fetch
 export default function useFetchMedia(): {
-  fetchMedia: (
-    mediaSortType: MediaSortType,
-    movieName: string,
-    year: string,
-    genre: string,
-    language: string,
-  ) => Promise<void>;
+  fetchMedia: (params: FetchMediaParams) => Promise<void>;
   mediaData: MediaItem[];
 } {
   const [data, setData] = useState<MediaItem[]>([]);
@@ -38,14 +36,11 @@ export default function useFetchMedia(): {
     }
   }
 
-  const fetchMedia = async (
-    mediaSortType: MediaSortType,
-    movieName: string,
-    year: string,
-    genre: string,
-    language: string,
-  ): Promise<void> => {
-    let url = getURL(mediaSortType, movieName, year, genre, language);
+  const fetchMedia = async ({
+    mediaSortType,
+    filters,
+  }: FetchMediaParams): Promise<void> => {
+    let url = getURL(mediaSortType, filters);
 
     if (mediaSortType !== "name") {
       let total = totalPages || (await fetchTotalPages(url));
@@ -79,10 +74,7 @@ export default function useFetchMedia(): {
 
 function getURL(
   mediaSortType: MediaSortType,
-  movieName: string,
-  year: string,
-  genre: string,
-  language: string,
+  filters?: FetchMediaFilters,
 ): string {
   let url: string = "";
 
@@ -92,16 +84,16 @@ function getURL(
       break;
     }
     case "name":
-      url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${movieName}`;
+      url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${filters?.mediaName}`;
       break;
     case "year":
-      url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&primary_release_year=${year}`;
+      url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&primary_release_year=${filters?.year}`;
       break;
     case "genre":
-      url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genre}`;
+      url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${filters?.genre}`;
       break;
     case "language":
-      url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_original_language=${language}`;
+      url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_original_language=${filters?.language}`;
       break;
   }
 

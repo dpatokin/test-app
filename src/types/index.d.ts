@@ -17,6 +17,18 @@ export interface MediaItem {
 
 export type MediaSortType = "random" | "name" | "year" | "genre" | "language";
 
+export interface FetchMediaFilters {
+  mediaName?: string;
+  year?: string;
+  genre?: string;
+  language?: string;
+}
+
+export interface FetchMediaParams {
+  mediaSortType: MediaSortType;
+  filters?: FetchMediaFilters;
+}
+
 export interface Genre {
   id: number;
   name: string;

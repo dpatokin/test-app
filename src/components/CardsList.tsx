@@ -7,6 +7,8 @@ import { MediaItem } from "../types";
 import { Grid } from "@mui/material";
 import Card from "./Card/Card";
 
+// TODO: add loading states (skeleton)
+
 export default function CardsList({
   mediaData,
 }: {
