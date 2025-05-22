@@ -2,11 +2,11 @@ import { Autocomplete, Box, TextField } from "@mui/material";
 import { useGlobalData } from "../../hooks/useGlobalData";
 
 export default function LanguageAutocomplete({
-  setLanguage,
+  setFilters,
   error,
   helperText,
 }: {
-  setLanguage: (language: string) => void;
+  setFilters: (language: string) => void;
   error: boolean;
   helperText: string;
 }) {
@@ -19,7 +19,7 @@ export default function LanguageAutocomplete({
       options={languages}
       getOptionLabel={(option) => option.english_name}
       onChange={(_, newValue) =>
-        setLanguage(newValue ? newValue.iso_639_1.toLowerCase() : "")
+        setFilters(newValue ? newValue.iso_639_1.toLowerCase() : "")
       }
       renderOption={(props, option) => (
         <Box

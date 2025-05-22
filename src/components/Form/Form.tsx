@@ -1,6 +1,10 @@
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
-import { FetchMediaParams, MediaSortType } from "../../types";
+import {
+  FetchMediaFilters,
+  FetchMediaParams,
+  MediaSortType,
+} from "../../types";
 import MediaSortTypeSelector from "./MediaSortTypeSelector.tsx";
 import NameInput from "./NameInput.tsx";
 import YearInput from "./YearInput.tsx";
@@ -13,11 +17,7 @@ export function Form({
   fetchMedia: (params: FetchMediaParams) => Promise<void>;
 }) {
   const [mediaSortType, setMediaSortType] = useState<MediaSortType>("random");
-  // TODO: reaplace all string states by one object
-  const [mediaName, setMediaName] = useState<string>("");
-  const [year, setYear] = useState<string>("");
-  const [genre, setGenre] = useState<string>("");
-  const [language, setLanguage] = useState<string>("");
+  const [filters, setFilters] = useState<FetchMediaFilters>({});
   const [errors, setErrors] = useState({
     mediaName: "",
     year: "",
@@ -28,21 +28,22 @@ export function Form({
   const validate = () => {
     const newErrors = { mediaName: "", year: "", genre: "", language: "" };
 
-    if (mediaSortType === "name" && mediaName.trim() === "") {
+    if (mediaSortType === "name" && filters?.mediaName?.trim() === "") {
       newErrors.mediaName = "Please enter a movie name";
     }
     if (
       mediaSortType === "year" &&
-      (year.trim() === "" ||
-        year.trim() < "1900" ||
-        year.trim() > new Date().getFullYear().toString())
+      (!filters?.year ||
+        filters.year.trim() === "" ||
+        filters.year.trim() < "1900" ||
+        filters.year.trim() > new Date().getFullYear().toString())
     ) {
       newErrors.year = "Please select a correct year";
     }
-    if (mediaSortType === "genre" && !genre) {
+    if (mediaSortType === "genre" && !filters.genre) {
       newErrors.genre = "Please select a genre";
     }
-    if (mediaSortType === "language" && !language) {
+    if (mediaSortType === "language" && !filters.language) {
       newErrors.language = "Please select a language";
     }
 
@@ -57,12 +58,7 @@ export function Form({
       component="form"
       onSubmit={(e) => {
         e.preventDefault();
-        const filters = {
-          mediaName,
-          year,
-          genre,
-          language,
-        };
+
         if (validate()) {
           fetchMedia({ mediaSortType, filters });
         }
@@ -74,26 +70,37 @@ export function Form({
       />
       {mediaSortType === "name" && (
         <NameInput
-          mediaName={mediaName}
-          setMediaName={setMediaName}
+          mediaName={filters.mediaName || ""}
+          setFilters={(value) => {
+            setFilters((prevFilters) => ({ ...prevFilters, mediaName: value }));
+          }}
           error={!!errors.mediaName}
           helperText={errors.mediaName}
         />
       )}
       {mediaSortType === "year" && (
-        <YearInput setYear={setYear} helperText={errors.year} />
+        <YearInput
+          setFilters={(value) => {
+            setFilters((prevFilters) => ({ ...prevFilters, year: value }));
+          }}
+          helperText={errors.year}
+        />
       )}
       {mediaSortType === "genre" && (
         <GenreSelect
-          genre={genre}
-          setGenre={setGenre}
+          genre={filters.genre || ""}
+          setFilters={(value) => {
+            setFilters((prevFilters) => ({ ...prevFilters, genre: value }));
+          }}
           error={!!errors.genre}
           helperText={errors.genre}
         />
       )}
       {mediaSortType === "language" && (
         <LanguageAutocomplete
-          setLanguage={setLanguage}
+          setFilters={(value) => {
+            setFilters((prevFilters) => ({ ...prevFilters, language: value }));
+          }}
           error={!!errors.language}
           helperText={errors.language}
         />

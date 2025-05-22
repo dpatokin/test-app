@@ -2,12 +2,12 @@ import { FormControl, TextField } from "@mui/material";
 
 export default function NameInput({
   mediaName,
-  setMediaName,
+  setFilters,
   error = false,
   helperText = "",
 }: {
   mediaName: string;
-  setMediaName: (mediaName: string) => void;
+  setFilters: (mediaName: string) => void;
   error: boolean;
   helperText: string;
 }) {
@@ -17,7 +17,7 @@ export default function NameInput({
         id="media-name-input"
         label="Movie name"
         value={mediaName}
-        onChange={(e) => setMediaName(e.target.value)}
+        onChange={(e) => setFilters(e.target.value)}
         error={error}
         helperText={helperText}
       />

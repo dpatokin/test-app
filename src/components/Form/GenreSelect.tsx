@@ -9,12 +9,12 @@ import { useGlobalData } from "../../hooks/useGlobalData";
 
 export default function GenreSelect({
   genre,
-  setGenre,
+  setFilters,
   error,
   helperText,
 }: {
   genre: string;
-  setGenre: (genre: string) => void;
+  setFilters: (genre: string) => void;
   error: boolean;
   helperText: string;
 }) {
@@ -30,7 +30,7 @@ export default function GenreSelect({
         value={genre}
         label={label}
         disabled={!genres.length}
-        onChange={(e) => setGenre(e.target.value as string)}
+        onChange={(e) => setFilters(e.target.value as string)}
       >
         {genres.map((genre) => (
           <MenuItem key={genre.id} value={genre.id}>
