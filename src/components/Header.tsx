@@ -23,7 +23,7 @@ export function Header() {
             }}
           >
             <TheatersIcon sx={{ display: "flex", mr: 1 }} />
-            <Typography variant="h6">Cinema Finder</Typography>
+            <Typography variant="h6">Cinema Randomizer</Typography>
           </Box>
           <Box
             sx={{ display: "flex", flex: "1 1 100%", justifyContent: "center" }}
