@@ -119,7 +119,7 @@ export function Form({
         sx={{ gridColumn: "4 / 10" }}
         loading={loading}
       >
-        Get media
+        Search media
       </Button>
     </Box>
   );
