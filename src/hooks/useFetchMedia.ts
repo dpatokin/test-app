@@ -41,16 +41,13 @@ export default function useFetchMedia(): {
     filters,
   }: FetchMediaParams): Promise<void> => {
     let url = getURL(mediaSortType, filters);
+    let total = totalPages || (await fetchTotalPages(url));
+    total = total > 500 ? 500 : total; // There is an API bug if you try to set page number more than 500
 
-    if (mediaSortType !== "name") {
-      let total = totalPages || (await fetchTotalPages(url));
-      total = total > 500 ? 500 : total; // There is an API bug if you try to set page number more than 500
+    if (total > 0) {
+      const pageNumber = Math.floor(Math.random() * total) + 1;
 
-      if (total > 0) {
-        const pageNumber = Math.floor(Math.random() * total) + 1;
-
-        url += `&page=${pageNumber}`;
-      }
+      url += `&page=${pageNumber}`;
     }
 
     try {

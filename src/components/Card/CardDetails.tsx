@@ -17,7 +17,7 @@ export default function CardDetails(
   return (
     <Box>
       <Typography variant="body2" sx={{ color: "text.disabled" }}>
-        Release date: {releaseDate}
+        Release date: {releaseDate ? releaseDate : "-"}
       </Typography>
       <Typography variant="body2" sx={{ color: "text.disabled" }}>
         Original language: {originalLanguage?.english_name}
