@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   FetchMediaFilters,
   FetchMediaParams,
@@ -9,7 +9,6 @@ import {
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL;
 
-// TODO: prefetch pages only if mediaSortType is changed after prev fetch
 export default function useFetchMedia(): {
   fetchMedia: (params: FetchMediaParams) => Promise<void>;
   mediaData: MediaItem[];
@@ -40,7 +39,10 @@ export default function useFetchMedia(): {
     mediaSortType,
     filters,
   }: FetchMediaParams): Promise<void> => {
-    let url = getURL(mediaSortType, filters);
+    let url = useMemo(
+      () => getURL(mediaSortType, filters),
+      [mediaSortType, filters],
+    );
     let total = totalPages || (await fetchTotalPages(url));
     total = total > 500 ? 500 : total; // There is an API bug if you try to set page number more than 500
 

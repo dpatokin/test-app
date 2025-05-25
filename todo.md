@@ -1,7 +1,7 @@
 # TODO
 
-* [ ]  Add pagination
-* [ ]  Check useMemo
+* [ ]  Add series media type for Form
+* [ ]  Add custom page for favorite series?
 * [ ]  Move localstorage to DB
 * [ ]  Add bottom nav for mobile version - https://mui.com/material-ui/react-bottom-navigation/
 * [ ]  Last step - react native

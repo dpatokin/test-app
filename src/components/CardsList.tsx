@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactElement } from "react";
+import { useState, useEffect, ReactElement, useCallback } from "react";
 import {
   getFavoriteMediaArray,
   updateFavoriteMediaData,
@@ -21,14 +21,14 @@ export default function CardsList({
     setFavoriteMedia(getFavoriteMediaArray());
   }, []);
 
-  const handleToggleFavorite = (mediaItem: MediaItem) => {
+  const handleToggleFavorite = useCallback((mediaItem: MediaItem) => {
     setFavoriteMedia((prev) =>
       prev.some((favoriteItem) => favoriteItem.id === mediaItem.id)
         ? prev.filter((filterItem) => filterItem.id !== mediaItem.id)
         : [...prev, mediaItem],
     );
     updateFavoriteMediaData(mediaItem);
-  };
+  }, []);
 
   return (
     <Grid container spacing={2} mt={8}>

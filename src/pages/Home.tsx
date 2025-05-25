@@ -2,7 +2,7 @@ import { Box, CircularProgress, Container, Typography } from "@mui/material";
 import CardsList from "../components/CardsList.tsx";
 import useFetchMedia from "../hooks/useFetchMedia.ts";
 import { Form } from "../components/Form/Form.tsx";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FetchMediaParams } from "../types";
 import useAPIStatus from "../hooks/useAPIStatus.ts";
 
@@ -11,11 +11,14 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const { isAPIWorking, loading: apiLoading } = useAPIStatus();
 
-  const handleFetchMedia = async (params: FetchMediaParams) => {
-    setLoading(true);
-    await fetchMedia(params);
-    setLoading(false);
-  };
+  const handleFetchMedia = useCallback(
+    async (params: FetchMediaParams) => {
+      setLoading(true);
+      await fetchMedia(params);
+      setLoading(false);
+    },
+    [fetchMedia],
+  );
 
   let content;
 
