@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   FetchMediaFilters,
   FetchMediaParams,
@@ -39,10 +39,7 @@ export default function useFetchMedia(): {
     mediaSortType,
     filters,
   }: FetchMediaParams): Promise<void> => {
-    let url = useMemo(
-      () => getURL(mediaSortType, filters),
-      [mediaSortType, filters],
-    );
+    let url = getURL(mediaSortType, filters);
     let total = totalPages || (await fetchTotalPages(url));
     total = total > 500 ? 500 : total; // There is an API bug if you try to set page number more than 500
 
