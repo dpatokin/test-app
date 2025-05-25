@@ -12,11 +12,13 @@ export default function GenreSelect({
   setFilters,
   error,
   helperText,
+  disabled,
 }: {
   genre: string;
   setFilters: (genre: string) => void;
   error: boolean;
   helperText: string;
+  disabled: boolean;
 }) {
   const { genres } = useGlobalData();
   const label = "Genre";
@@ -29,7 +31,7 @@ export default function GenreSelect({
         id="media-genre-select"
         value={genre}
         label={label}
-        disabled={!genres.length}
+        disabled={!genres.length || disabled}
         onChange={(e) => setFilters(e.target.value as string)}
       >
         {genres.map((genre) => (

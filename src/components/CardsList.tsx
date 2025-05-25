@@ -6,13 +6,14 @@ import {
 import { MediaItem } from "../types";
 import { Grid } from "@mui/material";
 import Card from "./Card/Card";
-
-// TODO: add loading states (skeleton)
+import CardsPlaceholder from "./CardsPlaceholder";
 
 export default function CardsList({
   mediaData,
+  loading,
 }: {
   mediaData: MediaItem[];
+  loading?: boolean;
 }): ReactElement {
   const [favoriteMedia, setFavoriteMedia] = useState<MediaItem[]>([]);
 
@@ -31,14 +32,18 @@ export default function CardsList({
 
   return (
     <Grid container spacing={2} mt={8}>
-      {mediaData.map((mediaItem: MediaItem) => (
-        <Card
-          key={mediaItem.id}
-          mediaItem={mediaItem}
-          favoriteMedia={favoriteMedia}
-          onToggleFavorite={handleToggleFavorite}
-        />
-      ))}
+      {loading ? (
+        <CardsPlaceholder />
+      ) : (
+        mediaData.map((mediaItem: MediaItem) => (
+          <Card
+            key={mediaItem.id}
+            mediaItem={mediaItem}
+            favoriteMedia={favoriteMedia}
+            onToggleFavorite={handleToggleFavorite}
+          />
+        ))
+      )}
     </Grid>
   );
 }

@@ -1,7 +1,5 @@
 # TODO
 
-* Add Sekeleton components while fetching data
-
 * [ ]  Add pagination
 * [ ]  Check on App load if api is working
 * [ ]  Check useMemo

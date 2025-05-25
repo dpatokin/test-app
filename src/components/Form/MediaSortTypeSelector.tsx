@@ -4,9 +4,11 @@ import { MediaSortType } from "../../types";
 export default function MediaSortTypeSelector({
   mediaSortType,
   setMediaSortType,
+  disabled,
 }: {
   mediaSortType: MediaSortType;
   setMediaSortType: (mediaSortType: MediaSortType) => void;
+  disabled: boolean;
 }) {
   const sortTypes: MediaSortType[] = [
     "random",
@@ -27,6 +29,7 @@ export default function MediaSortTypeSelector({
         value={mediaSortType}
         label="Select by..."
         onChange={(e) => setMediaSortType(e.target.value)}
+        disabled={disabled}
       >
         {sortTypes.map((type, i) => (
           <MenuItem key={i} value={type}>

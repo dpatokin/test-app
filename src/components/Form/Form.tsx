@@ -13,8 +13,10 @@ import LanguageAutocomplete from "./LanguageAutocomplete.tsx";
 
 export function Form({
   fetchMedia,
+  loading,
 }: {
   fetchMedia: (params: FetchMediaParams) => Promise<void>;
+  loading: boolean;
 }) {
   const [mediaSortType, setMediaSortType] = useState<MediaSortType>("random");
   const [filters, setFilters] = useState<FetchMediaFilters>({});
@@ -67,6 +69,7 @@ export function Form({
       <MediaSortTypeSelector
         mediaSortType={mediaSortType}
         setMediaSortType={setMediaSortType}
+        disabled={loading}
       />
       {mediaSortType === "name" && (
         <NameInput
@@ -76,6 +79,7 @@ export function Form({
           }}
           error={!!errors.mediaName}
           helperText={errors.mediaName}
+          disabled={loading}
         />
       )}
       {mediaSortType === "year" && (
@@ -84,6 +88,7 @@ export function Form({
             setFilters((prevFilters) => ({ ...prevFilters, year: value }));
           }}
           helperText={errors.year}
+          disabled={loading}
         />
       )}
       {mediaSortType === "genre" && (
@@ -94,6 +99,7 @@ export function Form({
           }}
           error={!!errors.genre}
           helperText={errors.genre}
+          disabled={loading}
         />
       )}
       {mediaSortType === "language" && (
@@ -103,6 +109,7 @@ export function Form({
           }}
           error={!!errors.language}
           helperText={errors.language}
+          disabled={loading}
         />
       )}
       <Button
@@ -110,6 +117,7 @@ export function Form({
         variant="outlined"
         size="large"
         sx={{ gridColumn: "4 / 10" }}
+        loading={loading}
       >
         Get media
       </Button>

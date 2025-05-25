@@ -5,11 +5,13 @@ export default function NameInput({
   setFilters,
   error = false,
   helperText = "",
+  disabled,
 }: {
   mediaName: string;
   setFilters: (mediaName: string) => void;
   error: boolean;
   helperText: string;
+  disabled: boolean;
 }) {
   return (
     <FormControl sx={{ gridColumn: "7 / 10" }}>
@@ -20,6 +22,7 @@ export default function NameInput({
         onChange={(e) => setFilters(e.target.value)}
         error={error}
         helperText={helperText}
+        disabled={disabled}
       />
     </FormControl>
   );

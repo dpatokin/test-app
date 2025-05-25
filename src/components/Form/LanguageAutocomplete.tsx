@@ -5,10 +5,12 @@ export default function LanguageAutocomplete({
   setFilters,
   error,
   helperText,
+  disabled,
 }: {
   setFilters: (language: string) => void;
   error: boolean;
   helperText: string;
+  disabled: boolean;
 }) {
   const { languages } = useGlobalData();
 
@@ -42,11 +44,12 @@ export default function LanguageAutocomplete({
         <TextField
           {...params}
           label="Language"
-          disabled={!languages.length}
+          disabled={!languages.length || disabled}
           error={error}
           helperText={helperText}
         />
       )}
+      disabled={disabled}
     />
   );
 }

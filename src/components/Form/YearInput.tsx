@@ -8,9 +8,11 @@ import { FormControl } from "@mui/material";
 export default function YearInput({
   setFilters,
   helperText,
+  disabled,
 }: {
   setFilters: (year: string) => void;
   helperText: string;
+  disabled: boolean;
 }) {
   return (
     <FormControl sx={{ gridColumn: "7 / 10" }}>
@@ -29,6 +31,7 @@ export default function YearInput({
               helperText: helperText,
             },
           }}
+          disabled={disabled}
         />
       </LocalizationProvider>
     </FormControl>
