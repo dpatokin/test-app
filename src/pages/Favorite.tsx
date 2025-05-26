@@ -2,10 +2,12 @@ import { Container, Typography } from "@mui/material";
 import CardsList from "../components/CardsList.tsx";
 import { getFavoriteMediaArray } from "../utils/favoriteMedia";
 import { useEffect, useState } from "react";
-import { MediaItem } from "../types";
+import { MovieMediaItem, TVMediaItem } from "../types";
 
 export default function Favorite() {
-  const [favoriteMedia, setFavoriteMedia] = useState<MediaItem[]>([]);
+  const [favoriteMedia, setFavoriteMedia] = useState<
+    (MovieMediaItem | TVMediaItem)[]
+  >([]);
 
   useEffect(() => {
     setFavoriteMedia(getFavoriteMediaArray());

@@ -6,17 +6,20 @@ import {
 import CardUserScore from "./CardUserScore";
 import CardGenres from "./CardGenres";
 import CardDetails from "./CardDetails";
-import { MediaItem } from "../../types";
+import { MovieMediaItem, TVMediaItem } from "../../types";
 
 export default function CardContent(
-  props: Pick<
-    MediaItem,
-    | "overview"
-    | "adult"
-    | "genre_ids"
-    | "release_date"
-    | "original_language"
-    | "vote_average"
+  props: Partial<
+    Pick<
+      MovieMediaItem,
+      | "overview"
+      | "adult"
+      | "genre_ids"
+      | "release_date"
+      | "original_language"
+      | "vote_average"
+    > &
+      Pick<TVMediaItem, "first_air_date">
   >,
 ) {
   const {
@@ -24,6 +27,7 @@ export default function CardContent(
     adult,
     genre_ids,
     release_date,
+    first_air_date,
     original_language,
     vote_average,
   } = props;
@@ -49,15 +53,15 @@ export default function CardContent(
         spacing={2}
         sx={{ mt: 1.5 }}
       >
-        <CardDetails {...{ release_date, original_language }} />
+        <CardDetails {...{ release_date, first_air_date, original_language }} />
         {adult && (
           <Typography variant="body2" sx={{ color: "text.disabled" }}>
             For adults
           </Typography>
         )}
-        <CardUserScore {...{ vote_average }} />
+        <CardUserScore vote_average={vote_average ?? 0} />
       </Stack>
-      <CardGenres genreIDs={genre_ids} />
+      <CardGenres genreIDs={genre_ids ?? []} />
     </MUICardContent>
   );
 }

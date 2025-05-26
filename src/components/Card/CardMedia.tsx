@@ -4,14 +4,16 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useState } from "react";
-import { MediaItem } from "../../types";
+import { MovieMediaItem, TVMediaItem } from "../../types";
 
 export default function CardMedia(
-  props: Pick<MediaItem, "title" | "poster_path">,
+  props: Partial<Pick<MovieMediaItem, "title" | "poster_path">> &
+    Partial<Pick<TVMediaItem, "name">>,
 ) {
-  const { poster_path, title } = props;
+  const { poster_path, title, name } = props;
   const mediaBaseURL = "https://image.tmdb.org/t/p/w500/";
   const [loading, setLoading] = useState(true);
+  const alt = title || name || "Media Image";
 
   return (
     <Box
@@ -43,7 +45,7 @@ export default function CardMedia(
             ? mediaBaseURL + poster_path
             : "https://placehold.co/240x360/222/fff?text=No+Image"
         }
-        alt={title}
+        alt={alt}
         sx={{
           width: "240px",
           height: "100%",

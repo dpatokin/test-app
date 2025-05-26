@@ -2,8 +2,10 @@ import { useState } from "react";
 import {
   FetchMediaFilters,
   FetchMediaParams,
-  MediaItem,
   MediaSortType,
+  MediaType,
+  MovieMediaItem,
+  TVMediaItem,
 } from "../types";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -11,9 +13,9 @@ const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL;
 
 export default function useFetchMedia(): {
   fetchMedia: (params: FetchMediaParams) => Promise<void>;
-  mediaData: MediaItem[];
+  mediaData: (MovieMediaItem | TVMediaItem)[];
 } {
-  const [data, setData] = useState<MediaItem[]>([]);
+  const [data, setData] = useState<(MovieMediaItem | TVMediaItem)[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
 
   async function fetchTotalPages(url: string): Promise<number> {
@@ -36,10 +38,11 @@ export default function useFetchMedia(): {
   }
 
   const fetchMedia = async ({
+    mediaType,
     mediaSortType,
     filters,
   }: FetchMediaParams): Promise<void> => {
-    let url = getURL(mediaSortType, filters);
+    let url = getURL(mediaType, mediaSortType, filters);
     let total = totalPages || (await fetchTotalPages(url));
     total = total > 500 ? 500 : total; // There is an API bug if you try to set page number more than 500
 
@@ -58,8 +61,14 @@ export default function useFetchMedia(): {
       }
 
       const result = await response.json();
+      const resultsWithType = result.results
+        ? result.results.map((mediaItem: MovieMediaItem | TVMediaItem) => ({
+            ...mediaItem,
+            media_type: mediaType,
+          }))
+        : [];
 
-      setData(result.results || []);
+      setData(resultsWithType);
     } catch (error) {
       console.error("Fetch error:", error);
     }
@@ -69,6 +78,7 @@ export default function useFetchMedia(): {
 }
 
 function getURL(
+  mediaType: MediaType,
   mediaSortType: MediaSortType,
   filters?: FetchMediaFilters,
 ): string {
@@ -76,20 +86,20 @@ function getURL(
 
   switch (mediaSortType) {
     case "random": {
-      url = `${BASE_URL}/movie/popular?api_key=${API_KEY}`;
+      url = `${BASE_URL}/${mediaType}/popular?api_key=${API_KEY}`;
       break;
     }
     case "name":
-      url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${filters?.mediaName}`;
+      url = `${BASE_URL}/search/${mediaType}?api_key=${API_KEY}&query=${filters?.mediaName}`;
       break;
     case "year":
-      url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&primary_release_year=${filters?.year}`;
+      url = `${BASE_URL}/discover/${mediaType}?api_key=${API_KEY}&primary_release_year=${filters?.year}`;
       break;
     case "genre":
-      url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${filters?.genre}`;
+      url = `${BASE_URL}/discover/${mediaType}?api_key=${API_KEY}&with_genres=${filters?.genre}`;
       break;
     case "language":
-      url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_original_language=${filters?.language}`;
+      url = `${BASE_URL}/discover/${mediaType}?api_key=${API_KEY}&with_original_language=${filters?.language}`;
       break;
   }
 

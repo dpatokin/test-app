@@ -1,12 +1,17 @@
 import { CardHeader as MUICardHeader } from "@mui/material";
-import { MediaItem } from "../../types";
+import { MovieMediaItem, TVMediaItem } from "../../types";
 
 export default function CardTitle(
-  props: Pick<MediaItem, "title" | "original_title" | "original_language">,
+  props: Partial<
+    Pick<MovieMediaItem, "title" | "original_title" | "original_language"> &
+      Pick<TVMediaItem, "name" | "original_name" | "original_language">
+  >,
 ) {
-  const { title, original_title, original_language } = props;
-  const originalTitle =
-    original_title && original_language !== "en" ? original_title : undefined;
+  const { title, original_title, name, original_name, original_language } =
+    props;
+  const mediaName = title || name;
+  const mediaOriginalName =
+    original_language !== "en" ? original_title || original_name : undefined;
 
-  return <MUICardHeader title={title} subheader={originalTitle} />;
+  return <MUICardHeader title={mediaName} subheader={mediaOriginalName} />;
 }

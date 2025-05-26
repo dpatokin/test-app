@@ -1,15 +1,15 @@
 import { IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { MediaItem } from "../../types";
+import { MovieMediaItem, TVMediaItem } from "../../types";
 
 export function CardButtonFavorite({
   mediaItem,
   isFavorite,
   onToggleFavorite,
 }: {
-  mediaItem: MediaItem;
+  mediaItem: MovieMediaItem | TVMediaItem;
   isFavorite: boolean;
-  onToggleFavorite: (mediaItem: MediaItem) => void;
+  onToggleFavorite: (mediaItem: MovieMediaItem | TVMediaItem) => void;
 }) {
   return (
     <IconButton

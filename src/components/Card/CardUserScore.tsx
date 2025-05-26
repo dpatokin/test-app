@@ -2,7 +2,7 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import { useDrawingArea } from "@mui/x-charts";
 import { ReactNode } from "react";
 import { styled, useTheme } from "@mui/material";
-import { MediaItem } from "../../types";
+import { BaseMediaItem } from "../../types";
 
 const size = {
   width: 50,
@@ -25,7 +25,9 @@ function PieCenterLabel({ children }: { children: ReactNode }) {
   );
 }
 
-export default function CardUserScore(props: Pick<MediaItem, "vote_average">) {
+export default function CardUserScore(
+  props: Pick<BaseMediaItem, "vote_average">,
+) {
   const { vote_average } = props;
   const userScore = Math.round(vote_average * 10);
   const theme = useTheme();

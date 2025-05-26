@@ -3,6 +3,7 @@ import { useState } from "react";
 import {
   FetchMediaFilters,
   FetchMediaParams,
+  MediaType,
   MediaSortType,
 } from "../../types";
 import MediaSortTypeSelector from "./MediaSortTypeSelector.tsx";
@@ -10,7 +11,9 @@ import NameInput from "./NameInput.tsx";
 import YearInput from "./YearInput.tsx";
 import GenreSelect from "./GenreSelect.tsx";
 import LanguageAutocomplete from "./LanguageAutocomplete.tsx";
+import MediaTypeSwitcher from "./MediaTypeSwitcher.tsx";
 
+// TODO: add separated genres for movie and tv
 export function Form({
   fetchMedia,
   loading,
@@ -18,6 +21,7 @@ export function Form({
   fetchMedia: (params: FetchMediaParams) => Promise<void>;
   loading: boolean;
 }) {
+  const [mediaType, setMediaType] = useState<MediaType>("movie");
   const [mediaSortType, setMediaSortType] = useState<MediaSortType>("random");
   const [filters, setFilters] = useState<FetchMediaFilters>({});
   const [errors, setErrors] = useState({
@@ -62,10 +66,11 @@ export function Form({
         e.preventDefault();
 
         if (validate()) {
-          fetchMedia({ mediaSortType, filters });
+          fetchMedia({ mediaType, mediaSortType, filters });
         }
       }}
     >
+      <MediaTypeSwitcher mediaType={mediaType} setMediaType={setMediaType} />
       <MediaSortTypeSelector
         mediaSortType={mediaSortType}
         setMediaSortType={setMediaSortType}
@@ -119,7 +124,7 @@ export function Form({
         sx={{ gridColumn: "4 / 10" }}
         loading={loading}
       >
-        Search media
+        Search {mediaType === "movie" ? "Movies" : "TV Series"}
       </Button>
     </Box>
   );

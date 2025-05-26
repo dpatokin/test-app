@@ -1,12 +1,14 @@
-import { MediaItem } from "../types";
+import { MovieMediaItem, TVMediaItem } from "../types";
 
-export function getFavoriteMediaArray(): MediaItem[] {
+export function getFavoriteMediaArray(): (MovieMediaItem | TVMediaItem)[] {
   const favoriteMediaJSON = localStorage.getItem("favoriteMedia");
 
   return favoriteMediaJSON ? JSON.parse(favoriteMediaJSON) : [];
 }
 
-export function updateFavoriteMediaData(mediaItem: MediaItem): boolean {
+export function updateFavoriteMediaData(
+  mediaItem: MovieMediaItem | TVMediaItem,
+): boolean {
   const favoriteMedia = getFavoriteMediaArray();
 
   if (favoriteMedia.some((favoriteItem) => favoriteItem.id === mediaItem.id)) {
@@ -20,15 +22,24 @@ export function updateFavoriteMediaData(mediaItem: MediaItem): boolean {
   return true;
 }
 
-function addFavoriteMedia(mediaItem: MediaItem, idList: MediaItem[] = []) {
+function addFavoriteMedia(
+  mediaItem: MovieMediaItem | TVMediaItem,
+  idList: (MovieMediaItem | TVMediaItem)[] = [],
+) {
   localStorage.setItem("favoriteMedia", JSON.stringify([...idList, mediaItem]));
 }
 
-function removeFavoriteMedia(mediaItem: MediaItem, idList: MediaItem[]) {
+function removeFavoriteMedia(
+  mediaItem: MovieMediaItem | TVMediaItem,
+  idList: (MovieMediaItem | TVMediaItem)[],
+) {
   localStorage.setItem(
     "favoriteMedia",
     JSON.stringify(
-      idList.filter((filterItem: MediaItem) => filterItem.id !== mediaItem.id),
+      idList.filter(
+        (filterItem: MovieMediaItem | TVMediaItem) =>
+          filterItem.id !== mediaItem.id,
+      ),
     ),
   );
 }

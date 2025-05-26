@@ -1,18 +1,18 @@
 import { CardActions as MUICardActions, Button } from "@mui/material";
 import { CardButtonFavorite } from "./CardButtonFavorite";
-import { MediaItem } from "../../types";
+import { MovieMediaItem, TVMediaItem } from "../../types";
 
 export default function CardActions({
   mediaItem,
   favoriteMedia,
   onToggleFavorite,
 }: {
-  mediaItem: MediaItem;
-  favoriteMedia: MediaItem[];
-  onToggleFavorite: (mediaItem: MediaItem) => void;
+  mediaItem: MovieMediaItem | TVMediaItem;
+  favoriteMedia: (MovieMediaItem | TVMediaItem)[];
+  onToggleFavorite: (mediaItem: MovieMediaItem | TVMediaItem) => void;
 }) {
-  const { id } = mediaItem;
-  const movieURL = "https://www.themoviedb.org/movie/" + id;
+  const { id, media_type } = mediaItem;
+  const movieURL = `https://www.themoviedb.org/${media_type}/` + id;
   const isFavorite = favoriteMedia.some(
     (favoriteItem) => favoriteItem.id === mediaItem.id,
   );
