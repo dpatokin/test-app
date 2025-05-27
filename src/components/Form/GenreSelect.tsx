@@ -6,22 +6,26 @@ import {
   Select,
 } from "@mui/material";
 import { useGlobalData } from "../../hooks/useGlobalData";
+import { MediaType } from "../../types";
 
 export default function GenreSelect({
   genre,
   setFilters,
   error,
   helperText,
+  mediaType,
   disabled,
 }: {
   genre: string;
   setFilters: (genre: string) => void;
   error: boolean;
   helperText: string;
+  mediaType: MediaType;
   disabled: boolean;
 }) {
-  const { genres } = useGlobalData();
+  const { movieGenres, tvGenres } = useGlobalData();
   const label = "Genre";
+  const genres = mediaType === "movie" ? movieGenres : tvGenres;
 
   return (
     <FormControl sx={{ gridColumn: "7 / 10" }} error={error}>

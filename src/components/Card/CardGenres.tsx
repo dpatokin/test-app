@@ -1,10 +1,15 @@
 import { Chip, Stack } from "@mui/material";
 import { useGlobalData } from "../../hooks/useGlobalData.tsx";
+import { BaseMediaItem } from "../../types";
 
-export default function CardGenres({ genreIDs }: { genreIDs: number[] }) {
-  const { genres: genresList } = useGlobalData();
-  const genres = genreIDs
-    ? genresList.filter((genre) => genreIDs.includes(genre.id))
+export default function CardGenres(
+  props: Pick<BaseMediaItem, "genre_ids" | "media_type">,
+) {
+  const { genre_ids = [], media_type } = props;
+  const { movieGenres, tvGenres } = useGlobalData();
+  const genresList = media_type === "movie" ? movieGenres : tvGenres;
+  const genres = genre_ids
+    ? genresList.filter((genre) => genre_ids.includes(genre.id))
     : [];
 
   return (

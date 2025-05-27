@@ -2,7 +2,8 @@ import { createContext, useState, useEffect, ReactNode } from "react";
 import { Genre, Language } from "../types";
 
 export interface GlobalDataContextType {
-  genres: Genre[];
+  movieGenres: Genre[];
+  tvGenres: Genre[];
   languages: Language[];
 }
 
@@ -11,16 +12,19 @@ const GlobalDataContext = createContext<GlobalDataContextType | undefined>(
 );
 
 export const GlobalDataProvider = ({ children }: { children: ReactNode }) => {
-  const [genres, setGenres] = useState<Genre[]>([]);
+  const [movieGenres, setMovieGenres] = useState<Genre[]>([]);
+  const [tvGenres, setTVGenres] = useState<Genre[]>([]);
   const [languages, setLanguage] = useState<Language[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const storedGenres = localStorage.getItem("genres");
+      const storedMovieGenres = localStorage.getItem("movieGenres");
+      const storedTVGenres = localStorage.getItem("tvGenres");
       const storedLanguages = localStorage.getItem("languages");
 
-      if (storedGenres && storedLanguages) {
-        setGenres(JSON.parse(storedGenres || "[]"));
+      if (storedMovieGenres && storedTVGenres && storedLanguages) {
+        setMovieGenres(JSON.parse(storedMovieGenres || "[]"));
+        setTVGenres(JSON.parse(storedTVGenres || "[]"));
         setLanguage(JSON.parse(storedLanguages || "[]"));
 
         return;
@@ -30,20 +34,30 @@ export const GlobalDataProvider = ({ children }: { children: ReactNode }) => {
         const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
         const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL;
 
-        const [genresResponse, languagesResponse] = await Promise.all([
-          fetch(
-            `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`,
-          ),
-          fetch(`${BASE_URL}/configuration/languages?api_key=${API_KEY}`),
-        ]);
+        const [movieGenresResponse, tvGenresResponse, languagesResponse] =
+          await Promise.all([
+            fetch(
+              `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`,
+            ),
+            fetch(
+              `${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=en-US`,
+            ),
+            fetch(`${BASE_URL}/configuration/languages?api_key=${API_KEY}`),
+          ]);
 
-        const genresResult = await genresResponse.json();
+        const tvGenresResult = await movieGenresResponse.json();
+        const movieGenresResult = await tvGenresResponse.json();
         const languagesResult = await languagesResponse.json();
 
-        setGenres(genresResult.genres);
+        setMovieGenres(tvGenresResult.genres);
+        setTVGenres(movieGenresResult.genres);
         setLanguage(languagesResult);
 
-        localStorage.setItem("genres", JSON.stringify(genresResult.genres));
+        localStorage.setItem("tvGenres", JSON.stringify(tvGenresResult.genres));
+        localStorage.setItem(
+          "movieGenres",
+          JSON.stringify(movieGenresResult.genres),
+        );
         localStorage.setItem("languages", JSON.stringify(languagesResult));
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -54,7 +68,7 @@ export const GlobalDataProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <GlobalDataContext.Provider value={{ genres, languages }}>
+    <GlobalDataContext.Provider value={{ movieGenres, tvGenres, languages }}>
       {children}
     </GlobalDataContext.Provider>
   );

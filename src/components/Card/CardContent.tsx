@@ -18,6 +18,7 @@ export default function CardContent(
       | "release_date"
       | "original_language"
       | "vote_average"
+      | "media_type"
     > &
       Pick<TVMediaItem, "first_air_date">
   >,
@@ -30,6 +31,7 @@ export default function CardContent(
     first_air_date,
     original_language,
     vote_average,
+    media_type,
   } = props;
 
   return (
@@ -61,7 +63,8 @@ export default function CardContent(
         )}
         <CardUserScore vote_average={vote_average ?? 0} />
       </Stack>
-      <CardGenres genreIDs={genre_ids ?? []} />
+      {/*TODO: fix types for this component (Partial, Pick)*/}
+      <CardGenres {...{ genre_ids, media_type }} />
     </MUICardContent>
   );
 }

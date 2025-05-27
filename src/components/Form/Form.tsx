@@ -97,6 +97,7 @@ export function Form({
         />
       )}
       {mediaSortType === "genre" && (
+        // TODO: genres rerender issue (when changing genre, genres list rerender)
         <GenreSelect
           genre={filters.genre || ""}
           setFilters={(value) => {
@@ -104,6 +105,7 @@ export function Form({
           }}
           error={!!errors.genre}
           helperText={errors.genre}
+          mediaType={mediaType}
           disabled={loading}
         />
       )}
