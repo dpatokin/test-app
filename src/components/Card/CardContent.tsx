@@ -6,22 +6,20 @@ import {
 import CardUserScore from "./CardUserScore";
 import CardGenres from "./CardGenres";
 import CardDetails from "./CardDetails";
-import { MovieMediaItem, TVMediaItem } from "../../types";
+import { BaseMediaItem, MovieMediaItem, TVMediaItem } from "../../types";
 
 export default function CardContent(
-  props: Partial<
-    Pick<
-      MovieMediaItem,
-      | "overview"
-      | "adult"
-      | "genre_ids"
-      | "release_date"
-      | "original_language"
-      | "vote_average"
-      | "media_type"
-    > &
-      Pick<TVMediaItem, "first_air_date">
-  >,
+  props: Pick<
+    BaseMediaItem,
+    | "overview"
+    | "adult"
+    | "genre_ids"
+    | "original_language"
+    | "vote_average"
+    | "media_type"
+  > &
+    Partial<Pick<MovieMediaItem, "release_date">> &
+    Partial<Pick<TVMediaItem, "first_air_date">>,
 ) {
   const {
     overview,
@@ -63,7 +61,6 @@ export default function CardContent(
         )}
         <CardUserScore vote_average={vote_average ?? 0} />
       </Stack>
-      {/*TODO: fix types for this component (Partial, Pick)*/}
       <CardGenres {...{ genre_ids, media_type }} />
     </MUICardContent>
   );

@@ -5,7 +5,7 @@ import { BaseMediaItem } from "../../types";
 export default function CardGenres(
   props: Pick<BaseMediaItem, "genre_ids" | "media_type">,
 ) {
-  const { genre_ids = [], media_type } = props;
+  const { genre_ids, media_type } = props;
   const { movieGenres, tvGenres } = useGlobalData();
   const genresList = media_type === "movie" ? movieGenres : tvGenres;
   const genres = genre_ids
