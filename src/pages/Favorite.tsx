@@ -1,13 +1,21 @@
-import { Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import CardsList from "../components/CardsList.tsx";
 import { getFavoriteMediaArray } from "../utils/favoriteMedia";
 import { useEffect, useState } from "react";
-import { MovieMediaItem, TVMediaItem } from "../types";
+import { MediaType, MovieMediaItem, TVMediaItem } from "../types";
+import FavoriteMediaTypeSwitcher from "../components/FavoriteMediaTypeSwitcher.tsx";
 
 export default function Favorite() {
   const [favoriteMedia, setFavoriteMedia] = useState<
     (MovieMediaItem | TVMediaItem)[]
   >([]);
+  const [favoriteMediaType, setFavoriteMediaType] = useState<MediaType | "all">(
+    "all",
+  );
+  const mediaData =
+    favoriteMediaType === "all"
+      ? favoriteMedia
+      : favoriteMedia.filter((media) => media.media_type === favoriteMediaType);
 
   useEffect(() => {
     setFavoriteMedia(getFavoriteMediaArray());
@@ -15,8 +23,11 @@ export default function Favorite() {
 
   return (
     <Container maxWidth="xl" sx={{ pt: 17, pb: 8 }}>
-      <Typography variant="h1"> Favorite media</Typography>
-      <CardsList mediaData={favoriteMedia} />
+      <FavoriteMediaTypeSwitcher
+        favoriteMediaType={favoriteMediaType}
+        setFavoriteMediaType={setFavoriteMediaType}
+      />
+      <CardsList mediaData={mediaData} />
     </Container>
   );
 }
