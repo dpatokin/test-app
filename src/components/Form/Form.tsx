@@ -13,7 +13,6 @@ import GenreSelect from "./GenreSelect.tsx";
 import LanguageAutocomplete from "./LanguageAutocomplete.tsx";
 import MediaTypeSwitcher from "./MediaTypeSwitcher.tsx";
 
-// TODO: add separated genres for movie and tv
 export function Form({
   fetchMedia,
   loading,
@@ -97,7 +96,6 @@ export function Form({
         />
       )}
       {mediaSortType === "genre" && (
-        // TODO: genres rerender issue (when changing genre, genres list rerender)
         <GenreSelect
           genre={filters.genre || ""}
           setFilters={(value) => {

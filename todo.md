@@ -1,6 +1,5 @@
 # TODO
 
-* [ ]  Add series media type for Form
 * [ ]  Add check if there is no movie/tv for specific request
 * [ ]  Add custom page for favorite series?
 * [ ]  Move localstorage to DB

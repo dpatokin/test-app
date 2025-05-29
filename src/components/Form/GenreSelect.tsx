@@ -26,6 +26,9 @@ export default function GenreSelect({
   const { movieGenres, tvGenres } = useGlobalData();
   const label = "Genre";
   const genres = mediaType === "movie" ? movieGenres : tvGenres;
+  const validatedGenres = genres.some((g) => g.id === Number(genre))
+    ? genre
+    : "";
 
   return (
     <FormControl sx={{ gridColumn: "7 / 10" }} error={error}>
@@ -33,7 +36,7 @@ export default function GenreSelect({
       <Select
         labelId="media-genre-select-label"
         id="media-genre-select"
-        value={genre}
+        value={validatedGenres}
         label={label}
         disabled={!genres.length || disabled}
         onChange={(e) => setFilters(e.target.value as string)}
