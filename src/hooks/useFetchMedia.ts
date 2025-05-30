@@ -47,7 +47,7 @@ export default function useFetchMedia(): {
     total = total > 500 ? 500 : total; // There is an API bug if you try to set page number more than 500
 
     if (total > 0) {
-      const pageNumber = Math.floor(Math.random() * total) + 1;
+      const pageNumber = total > 1 ? Math.floor(Math.random() * total) + 1 : 1;
 
       url += `&page=${pageNumber}`;
     }
