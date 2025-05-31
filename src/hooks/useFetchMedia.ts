@@ -13,9 +13,11 @@ const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL;
 
 export default function useFetchMedia(): {
   fetchMedia: (params: FetchMediaParams) => Promise<void>;
-  mediaData: (MovieMediaItem | TVMediaItem)[];
+  mediaData: (MovieMediaItem | TVMediaItem)[] | undefined;
 } {
-  const [data, setData] = useState<(MovieMediaItem | TVMediaItem)[]>([]);
+  const [data, setData] = useState<
+    (MovieMediaItem | TVMediaItem)[] | undefined
+  >(undefined);
   const [totalPages, setTotalPages] = useState<number>(0);
 
   async function fetchTotalPages(url: string): Promise<number> {
