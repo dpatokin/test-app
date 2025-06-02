@@ -73,7 +73,7 @@ export default function CardsList({
   }
 
   return (
-    <Grid container spacing={2} mt={8}>
+    <Grid container columns={{ xs: 1, sm: 2 }} spacing={2} mt={8}>
       {content}
     </Grid>
   );

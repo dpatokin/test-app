@@ -1,5 +1,4 @@
-import { Box, Card as MUICard } from "@mui/material";
-import Grid from "@mui/material/Grid";
+import { Box, Card as MUICard, Grid } from "@mui/material";
 import { MovieMediaItem, TVMediaItem } from "../../types";
 import { ReactElement } from "react";
 import CardMedia from "./CardMedia";
@@ -17,10 +16,13 @@ export default function Card({
   onToggleFavorite: (mediaItem: MovieMediaItem | TVMediaItem) => void;
 }): ReactElement {
   return (
-    <Grid size={6} className="seriesCard">
+    <Grid size={1}>
       <MUICard
-        className="seriesCard"
-        sx={{ display: "flex", alignItems: "flex-start", height: "100%" }}
+        sx={{
+          display: { lg: "flex" },
+          alignItems: { lg: "flex-start" },
+          height: { lg: "100%" },
+        }}
       >
         <CardMedia {...mediaItem} />
         <Box

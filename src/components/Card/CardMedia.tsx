@@ -20,8 +20,8 @@ export default function CardMedia(
       sx={{
         position: "relative",
         flexShrink: 0,
-        width: "240px",
-        height: "360px",
+        width: { xs: "100%", lg: "240px" },
+        height: { xs: "auto", lg: "360px" },
       }}
     >
       {loading && (
@@ -47,8 +47,8 @@ export default function CardMedia(
         }
         alt={alt}
         sx={{
-          width: "240px",
-          height: "100%",
+          width: { xs: "100%", lg: "240px" },
+          height: { xs: "auto", lg: "100%" },
           display: loading ? "none" : "block",
         }}
         onLoad={() => setLoading(false)}
