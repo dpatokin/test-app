@@ -1,5 +1,5 @@
 import { Apps, LiveTvTwoTone, MovieCreationTwoTone } from "@mui/icons-material";
-import { Box, Button, ButtonGroup } from "@mui/material";
+import { Grid, Button, ButtonGroup } from "@mui/material";
 import { MediaType } from "../types";
 
 export default function FavoriteMediaTypeSwitcher({
@@ -10,32 +10,32 @@ export default function FavoriteMediaTypeSwitcher({
   setFavoriteMediaType: (favoriteMediaType: MediaType | "all") => void;
 }) {
   return (
-    <Box
-      sx={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: 2 }}
-    >
-      <ButtonGroup sx={{ gridColumn: "4 / 10" }} size="large" fullWidth={true}>
-        <Button
-          variant={favoriteMediaType === "all" ? "contained" : "outlined"}
-          startIcon={<Apps />}
-          onClick={() => setFavoriteMediaType("all")}
-        >
-          All
-        </Button>
-        <Button
-          variant={favoriteMediaType === "movie" ? "contained" : "outlined"}
-          startIcon={<MovieCreationTwoTone />}
-          onClick={() => setFavoriteMediaType("movie")}
-        >
-          Movies
-        </Button>
-        <Button
-          variant={favoriteMediaType === "tv" ? "contained" : "outlined"}
-          startIcon={<LiveTvTwoTone />}
-          onClick={() => setFavoriteMediaType("tv")}
-        >
-          Series
-        </Button>
-      </ButtonGroup>
-    </Box>
+    <Grid container spacing={2}>
+      <Grid size={{ xs: 12, md: 8, lg: 6 }} offset={{ md: 2, lg: 3 }}>
+        <ButtonGroup size="large" fullWidth={true}>
+          <Button
+            variant={favoriteMediaType === "all" ? "contained" : "outlined"}
+            startIcon={<Apps />}
+            onClick={() => setFavoriteMediaType("all")}
+          >
+            All
+          </Button>
+          <Button
+            variant={favoriteMediaType === "movie" ? "contained" : "outlined"}
+            startIcon={<MovieCreationTwoTone />}
+            onClick={() => setFavoriteMediaType("movie")}
+          >
+            Movies
+          </Button>
+          <Button
+            variant={favoriteMediaType === "tv" ? "contained" : "outlined"}
+            startIcon={<LiveTvTwoTone />}
+            onClick={() => setFavoriteMediaType("tv")}
+          >
+            Series
+          </Button>
+        </ButtonGroup>
+      </Grid>
+    </Grid>
   );
 }
