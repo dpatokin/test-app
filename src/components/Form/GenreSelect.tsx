@@ -31,7 +31,7 @@ export default function GenreSelect({
     : "";
 
   return (
-    <FormControl sx={{ gridColumn: "7 / 10" }} error={error}>
+    <FormControl fullWidth={true} error={error}>
       <InputLabel id="media-genre-select-label">{label}</InputLabel>
       <Select
         labelId="media-genre-select-label"

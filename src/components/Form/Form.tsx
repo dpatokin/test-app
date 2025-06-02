@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Grid, Box, Button } from "@mui/material";
 import { useState } from "react";
 import {
   FetchMediaFilters,
@@ -33,7 +33,10 @@ export function Form({
   const validate = () => {
     const newErrors = { mediaName: "", year: "", genre: "", language: "" };
 
-    if (mediaSortType === "name" && filters?.mediaName?.trim() === "") {
+    if (
+      mediaSortType === "name" &&
+      (!filters.mediaName || filters.mediaName.trim() === "")
+    ) {
       newErrors.mediaName = "Please enter a movie name";
     }
     if (
@@ -59,7 +62,6 @@ export function Form({
 
   return (
     <Box
-      sx={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: 2 }}
       component="form"
       onSubmit={(e) => {
         e.preventDefault();
@@ -69,63 +71,92 @@ export function Form({
         }
       }}
     >
-      <MediaTypeSwitcher mediaType={mediaType} setMediaType={setMediaType} />
-      <MediaSortTypeSelector
-        mediaSortType={mediaSortType}
-        setMediaSortType={setMediaSortType}
-        disabled={loading}
-      />
-      {mediaSortType === "name" && (
-        <NameInput
-          mediaName={filters.mediaName || ""}
-          setFilters={(value) => {
-            setFilters((prevFilters) => ({ ...prevFilters, mediaName: value }));
-          }}
-          error={!!errors.mediaName}
-          helperText={errors.mediaName}
-          disabled={loading}
-        />
-      )}
-      {mediaSortType === "year" && (
-        <YearInput
-          setFilters={(value) => {
-            setFilters((prevFilters) => ({ ...prevFilters, year: value }));
-          }}
-          helperText={errors.year}
-          disabled={loading}
-        />
-      )}
-      {mediaSortType === "genre" && (
-        <GenreSelect
-          genre={filters.genre || ""}
-          setFilters={(value) => {
-            setFilters((prevFilters) => ({ ...prevFilters, genre: value }));
-          }}
-          error={!!errors.genre}
-          helperText={errors.genre}
-          mediaType={mediaType}
-          disabled={loading}
-        />
-      )}
-      {mediaSortType === "language" && (
-        <LanguageAutocomplete
-          setFilters={(value) => {
-            setFilters((prevFilters) => ({ ...prevFilters, language: value }));
-          }}
-          error={!!errors.language}
-          helperText={errors.language}
-          disabled={loading}
-        />
-      )}
-      <Button
-        type="submit"
-        variant="outlined"
-        size="large"
-        sx={{ gridColumn: "4 / 10" }}
-        loading={loading}
-      >
-        Search {mediaType === "movie" ? "Movies" : "TV Series"}
-      </Button>
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 12, md: 8, lg: 6 }} offset={{ md: 2, lg: 3 }}>
+          <MediaTypeSwitcher
+            mediaType={mediaType}
+            setMediaType={setMediaType}
+          />
+          <Grid
+            container
+            spacing={mediaSortType === "random" ? 0 : 2}
+            columns={2}
+            mt={2}
+            mb={2}
+          >
+            <MediaSortTypeSelector
+              mediaSortType={mediaSortType}
+              setMediaSortType={setMediaSortType}
+              disabled={loading}
+            />
+            <Grid size={1}>
+              {mediaSortType === "name" && (
+                <NameInput
+                  mediaName={filters.mediaName || ""}
+                  setFilters={(value) => {
+                    setFilters((prevFilters) => ({
+                      ...prevFilters,
+                      mediaName: value,
+                    }));
+                  }}
+                  error={!!errors.mediaName}
+                  helperText={errors.mediaName}
+                  disabled={loading}
+                />
+              )}
+              {mediaSortType === "year" && (
+                <YearInput
+                  setFilters={(value) => {
+                    setFilters((prevFilters) => ({
+                      ...prevFilters,
+                      year: value,
+                    }));
+                  }}
+                  helperText={errors.year}
+                  disabled={loading}
+                />
+              )}
+              {mediaSortType === "genre" && (
+                <GenreSelect
+                  genre={filters.genre || ""}
+                  setFilters={(value) => {
+                    setFilters((prevFilters) => ({
+                      ...prevFilters,
+                      genre: value,
+                    }));
+                  }}
+                  error={!!errors.genre}
+                  helperText={errors.genre}
+                  mediaType={mediaType}
+                  disabled={loading}
+                />
+              )}
+              {mediaSortType === "language" && (
+                <LanguageAutocomplete
+                  setFilters={(value) => {
+                    setFilters((prevFilters) => ({
+                      ...prevFilters,
+                      language: value,
+                    }));
+                  }}
+                  error={!!errors.language}
+                  helperText={errors.language}
+                  disabled={loading}
+                />
+              )}
+            </Grid>
+          </Grid>
+          <Button
+            type="submit"
+            variant="outlined"
+            size="large"
+            fullWidth={true}
+            loading={loading}
+          >
+            Search {mediaType === "movie" ? "Movies" : "TV Series"}
+          </Button>
+        </Grid>
+      </Grid>
     </Box>
   );
 }

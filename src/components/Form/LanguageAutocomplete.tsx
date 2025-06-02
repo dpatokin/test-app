@@ -16,8 +16,8 @@ export default function LanguageAutocomplete({
 
   return (
     <Autocomplete
-      sx={{ gridColumn: "7 / 10" }}
       id="media-language-autocomplete"
+      fullWidth={true}
       options={languages}
       getOptionLabel={(option) => option.english_name}
       onChange={(_, newValue) =>

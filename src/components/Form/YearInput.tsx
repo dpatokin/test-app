@@ -15,7 +15,7 @@ export default function YearInput({
   disabled: boolean;
 }) {
   return (
-    <FormControl sx={{ gridColumn: "7 / 10" }}>
+    <FormControl fullWidth={true}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           label="Year"

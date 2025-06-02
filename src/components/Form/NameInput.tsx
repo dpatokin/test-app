@@ -14,7 +14,7 @@ export default function NameInput({
   disabled: boolean;
 }) {
   return (
-    <FormControl sx={{ gridColumn: "7 / 10" }}>
+    <FormControl fullWidth={true}>
       <TextField
         id="media-name-input"
         label="Movie name"
