@@ -58,7 +58,6 @@ export function Header() {
               position: "absolute",
               zIndex: 1,
               right: 0,
-              display: { xs: "none", md: "inline-flex" },
             }}
           >
             <AccountCircle />

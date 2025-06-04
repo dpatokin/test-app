@@ -2,7 +2,6 @@ import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
 import { navLinks } from "./constants/navLinks";
 
@@ -37,7 +36,6 @@ export default function BottomNav() {
           to={to}
         />
       ))}
-      <BottomNavigationAction label="Account" icon={<AccountCircleIcon />} />
     </BottomNavigation>
   );
 }
