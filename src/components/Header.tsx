@@ -3,13 +3,18 @@ import {
   Box,
   Button,
   Container,
+  IconButton,
   Toolbar,
   Typography,
 } from "@mui/material";
 import TheatersIcon from "@mui/icons-material/Theaters";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { AccountCircle } from "@mui/icons-material";
+import { navLinks } from "./constants/navLinks.ts";
 
 export function Header() {
+  const location = useLocation();
+
   return (
     <AppBar position="fixed">
       <Container maxWidth="xl">
@@ -26,15 +31,38 @@ export function Header() {
             <Typography variant="h6">Cinema Randomizer</Typography>
           </Box>
           <Box
-            sx={{ display: "flex", flex: "1 1 100%", justifyContent: "center" }}
+            sx={{
+              flex: "1 1 100%",
+              justifyContent: "center",
+              display: { xs: "none", md: "flex" },
+            }}
           >
-            <Button color="inherit" component={Link} to="/">
-              Home
-            </Button>
-            <Button color="inherit" component={Link} to="/favorite">
-              Favorite
-            </Button>
+            {navLinks.map(({ label, to }) => (
+              <Button
+                key={to}
+                color={location.pathname === to ? "primary" : "inherit"}
+                component={Link}
+                to={to}
+                size="large"
+              >
+                {label}
+              </Button>
+            ))}
           </Box>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            sx={{
+              position: "absolute",
+              zIndex: 1,
+              right: 0,
+              display: { xs: "none", md: "inline-flex" },
+            }}
+          >
+            <AccountCircle />
+          </IconButton>
         </Toolbar>
       </Container>
     </AppBar>

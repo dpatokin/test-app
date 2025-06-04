@@ -4,9 +4,15 @@ import HomeIcon from "@mui/icons-material/Home";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
+import { navLinks } from "./constants/navLinks";
 
 export default function BottomNav() {
   const [value, setValue] = useState(0);
+
+  const icons = {
+    "/": <HomeIcon />,
+    "/favorite": <FavoriteIcon />,
+  };
 
   return (
     <BottomNavigation
@@ -22,18 +28,15 @@ export default function BottomNav() {
       value={value}
       onChange={(_event, newValue) => setValue(newValue)}
     >
-      <BottomNavigationAction
-        label="Home"
-        icon={<HomeIcon />}
-        component={Link}
-        to="/"
-      />
-      <BottomNavigationAction
-        label="Favorite"
-        icon={<FavoriteIcon />}
-        component={Link}
-        to="/favorite"
-      />
+      {navLinks.map(({ label, to }) => (
+        <BottomNavigationAction
+          key={to}
+          label={label}
+          icon={icons[to as keyof typeof icons]}
+          component={Link}
+          to={to}
+        />
+      ))}
       <BottomNavigationAction label="Account" icon={<AccountCircleIcon />} />
     </BottomNavigation>
   );
